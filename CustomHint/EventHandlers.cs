@@ -1,14 +1,14 @@
 using System;
-using MEC;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Server;
-using System.Collections.Generic;
+using MEC;
 using PlayerRoles;
-using System.Linq;
-using System.IO;
 using PlayerRoles.PlayableScps.Scp079;
 
-namespace CustomHintPlugin
+namespace CustomHint
 {
     public class EventHandlers
     {
@@ -63,11 +63,11 @@ namespace CustomHintPlugin
 
             if (player.DoNotTrack)
             {
-                if (Plugin.Instance.HiddenHudPlayers.Remove(player.UserId))
-                {
-                    Plugin.Instance.SaveHiddenHudPlayers();
-                    Log.Debug($"Player {player.Nickname} ({player.UserId}) has DNT enabled and was removed from HiddenHudPlayers.");
-                }
+                if (!Plugin.Instance.HiddenHudPlayers.Remove(player.UserId))
+                    return;
+
+                Plugin.Instance.SaveHiddenHudPlayers();
+                Log.Debug($"Player {player.Nickname} ({player.UserId}) has DNT enabled and was removed from HiddenHudPlayers.");
                 return;
             }
 
@@ -118,7 +118,8 @@ namespace CustomHintPlugin
         {
             while (_isRoundActive)
             {
-                TimeSpan roundDuration = DateTime.UtcNow - _roundStartTime;
+                //Removed roundDuration Variable and replaced with Round.ElapsedTime
+                //TODO: Test this -Saskyc.
 
                 foreach (var player in Player.List)
                 {
@@ -128,13 +129,13 @@ namespace CustomHintPlugin
                     {
                         if (Plugin.Instance.Config.HintForSpectatorsIsEnabled)
                         {
-                            DisplayHintForSpectators(player, roundDuration);
+                            DisplayHintForSpectators(player, Round.ElapsedTime);
                         }
                     }
                     else if (!Plugin.Instance.Config.ExcludedRoles.Contains(player.Role.Type) &&
                              !Plugin.Instance.HiddenHudPlayers.Contains(player.UserId))
                     {
-                        DisplayHint(player, roundDuration);
+                        DisplayHint(player, Round.ElapsedTime);
                     }
                 }
 
@@ -211,6 +212,7 @@ namespace CustomHintPlugin
                 .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"))
                 .Replace("{player_nickname}", player.Nickname)
                 .Replace("{player_role}", GetColoredRoleName(player))
+                .Replace("{player_gamerole}", Methods.GameRole(player))
                 .Replace("{tps}", ((int)Server.Tps).ToString())
                 .Replace("{servername}", Server.Name)
                 .Replace("{ip}", Server.IpAddress)
@@ -289,6 +291,7 @@ namespace CustomHintPlugin
                 .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"))
                 .Replace("{player_nickname}", player.Nickname)
                 .Replace("{player_role}", GetColoredRoleName(player))
+                .Replace("{player_gamerole}", Methods.GameRole(player))
                 .Replace("{tps}", ((int)Server.Tps).ToString())
                 .Replace("{servername}", Server.Name)
                 .Replace("{ip}", Server.IpAddress)

@@ -99,24 +99,25 @@ And after localization... Voilà! Everything is ready! You can restart the serve
 Thank you to everyone who uses this plugin. Best of luck!  
 
 ## Placeholders
-| Placeholder            | Description                           |
-| ---------------------- | ------------------------------------- |
-| {servername}           | Server name.                         |
-| {ip}                   | Server IP address.                   |
-| {port}                 | Server port.                         |
-| {tps}                  | Server TPS.                          |
-| {player_nickname}      | Player's nickname.                   |
-| {player_role}          | Player's role.                       |
-| {round_duration_seconds}| Round duration in seconds.           |
-| {round_duration_minutes}| Round duration in minutes.           |
-| {round_duration_hours} | Round duration in hours.             |
-| {classd_num}           | Number of Class-D personnel.         |
-| {scientist_num}        | Number of Scientists.                |
-| {facilityguard_num}    | Number of Facility Guards.           |
-| {mtf_num}              | Number of MTFs.               |
-| {ci_num}               | Number of Chaos Insurgents.          |
-| {scp_num}              | Number of SCP objects.               |
-| {spectators_num}       | Number of spectators (including Overwatch). |
-| {generators_activated} | Number of activated generators.       |
-| {generators_max}       | Maximum number of generators.         |
-| {hints}                | Hints from the Hints.txt file.        |
+| Placeholder            | Description                                 |
+| ----------------------- | ------------------------------------------ |
+| {servername}            | Server name.                               |
+| {ip}                    | Server IP address.                         |
+| {port}                  | Server port.                               |
+| {tps}                   | Server TPS.                                |
+| {player_nickname}       | Player's nickname.                         |
+| {player_role}           | Player's role.                             |
+| {player_gamerole}       | Player's Game role                         |
+| {round_duration_seconds}| Round duration in seconds.                 |
+| {round_duration_minutes}| Round duration in minutes.                 |
+| {round_duration_hours}  | Round duration in hours.                   |
+| {classd_num}            | Number of Class-D personnel.               |
+| {scientist_num}         | Number of Scientists.                      |
+| {facilityguard_num}     | Number of Facility Guards.                 |
+| {mtf_num}               | Number of MTFs.                            |
+| {ci_num}                | Number of Chaos Insurgents.                |
+| {scp_num}               | Number of SCP objects.                     |
+| {spectators_num}        | Number of spectators (including Overwatch).|
+| {generators_activated}  | Number of activated generators.            |
+| {generators_max}        | Maximum number of generators.              |
+| {hints}                 | Hints from the Hints.txt file.             |

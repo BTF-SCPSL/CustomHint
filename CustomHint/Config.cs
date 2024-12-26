@@ -3,7 +3,7 @@ using System.ComponentModel;
 using Exiled.API.Interfaces;
 using PlayerRoles;
 
-namespace CustomHintPlugin
+namespace CustomHint
 {
     public class Config : IConfig
     {

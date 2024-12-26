@@ -9,9 +9,9 @@ using Newtonsoft.Json.Linq;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace CustomHintPlugin
+namespace CustomHint
 {
-    public class Plugin : Plugin<Config, Translations>
+    public class Plugin : Plugin<Config, CustomHint.Translations>
     {
         public static Plugin Instance { get; private set; }
         public EventHandlers EventHandlers { get; private set; }

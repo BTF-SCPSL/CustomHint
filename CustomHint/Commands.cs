@@ -1,9 +1,9 @@
+using System;
 using CommandSystem;
 using Exiled.API.Features;
 using RemoteAdmin;
-using System;
 
-namespace CustomHintPlugin
+namespace CustomHint
 {
     [CommandHandler(typeof(ClientCommandHandler))]
     public class HideHudCommand : ICommand
@@ -14,36 +14,39 @@ namespace CustomHintPlugin
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
+            //Hello I added logic to get player before and just check if its null so you dont have to nest ifs.
+            //-saskyc
+
+            var player = Player.Get(sender);
+
             if (!Plugin.Instance.Config.EnableHudCommands)
             {
                 response = Plugin.Instance.Translation.CommandDisabledMessage;
                 return false;
             }
 
-            if (sender is PlayerCommandSender playerSender)
+            if(player == null)
             {
-                var player = Player.Get(playerSender.ReferenceHub);
-
-                if (player == null || player.DoNotTrack)
-                {
-                    response = Plugin.Instance.Translation.DntEnabledMessage;
-                    return false;
-                }
-
-                if (Plugin.Instance.HiddenHudPlayers.Contains(player.UserId))
-                {
-                    response = Plugin.Instance.Translation.HideHudAlreadyHiddenMessage;
-                    return false;
-                }
-
-                Plugin.Instance.HiddenHudPlayers.Add(player.UserId);
-                Plugin.Instance.SaveHiddenHudPlayers();
-                response = Plugin.Instance.Translation.HideHudSuccessMessage;
-                return true;
+                response = "This command is for players only.";
+                return false;
             }
 
-            response = "This command is for players only.";
-            return false;
+            if (player.DoNotTrack)
+            {
+                response = Plugin.Instance.Translation.DntEnabledMessage;
+                return false;
+            }
+
+            if (Plugin.Instance.HiddenHudPlayers.Contains(player.UserId))
+            {
+                response = Plugin.Instance.Translation.HideHudAlreadyHiddenMessage;
+                return false;
+            }
+
+            Plugin.Instance.HiddenHudPlayers.Add(player.UserId);
+            Plugin.Instance.SaveHiddenHudPlayers();
+            response = Plugin.Instance.Translation.HideHudSuccessMessage;
+            return true;
         }
     }
 

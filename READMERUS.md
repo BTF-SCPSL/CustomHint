@@ -103,6 +103,7 @@ custom_hint:
 | {tps}             | TPS сервера.                            |
 | {player_nickname} | Никнейм игрока.                         |
 | {player_role}     | Роль игрока.                            |
+| {player_gamerole}       | Player's Game role                |
 | {round_duration_seconds} | Длительность раунда в секундах.    |
 | {round_duration_minutes} | Длительность раунда в минутах.    |
 | {round_duration_hours}   | Длительность раунда в часах.      |
