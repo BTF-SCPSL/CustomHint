@@ -168,8 +168,11 @@ namespace CustomHint.Handlers
                         facilityGuardCount++;
                         break;
                     case RoleTypeId.Spectator:
-                    case RoleTypeId.Overwatch:
                         spectatorsCount++;
+                        break;
+                    case RoleTypeId.Overwatch:
+                        if (Plugin.Instance.Config.EnableOverwatchCounting)
+                            spectatorsCount++;
                         break;
                     default:
                         break;
@@ -195,6 +198,8 @@ namespace CustomHint.Handlers
 
             int generatorsActivated = Scp079Recontainer.AllGenerators.Count(generator => generator.Engaged);
             int generatorsMax = Scp079Recontainer.AllGenerators.Count;
+
+            string currentTime = Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone);
 
             string hintMessage;
             if (roundDuration.TotalSeconds <= 59)
@@ -224,6 +229,7 @@ namespace CustomHint.Handlers
                 .Replace("{spectators_num}", spectatorsCount.ToString())
                 .Replace("{generators_activated}", generatorsActivated.ToString())
                 .Replace("{generators_max}", generatorsMax.ToString())
+                .Replace("{current_time}", currentTime)
                 .Replace("{hints}", CurrentHint);
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
@@ -255,8 +261,11 @@ namespace CustomHint.Handlers
                         facilityGuardCount++;
                         break;
                     case RoleTypeId.Spectator:
-                    case RoleTypeId.Overwatch:
                         spectatorsCount++;
+                        break;
+                    case RoleTypeId.Overwatch:
+                        if (Plugin.Instance.Config.EnableOverwatchCounting)
+                            spectatorsCount++;
                         break;
                     default:
                         break;
@@ -283,6 +292,8 @@ namespace CustomHint.Handlers
             int generatorsActivated = Scp079Recontainer.AllGenerators.Count(generator => generator.Engaged);
             int generatorsMax = Scp079Recontainer.AllGenerators.Count;
 
+            string currentTime = Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone);
+
             string hintMessage = Plugin.Instance.Translation.HintMessageForSpectators
                 .Replace("{round_duration_hours}", roundDuration.Hours.ToString("D2"))
                 .Replace("{round_duration_minutes}", roundDuration.Minutes.ToString("D2"))
@@ -303,6 +314,7 @@ namespace CustomHint.Handlers
                 .Replace("{spectators_num}", spectatorsCount.ToString())
                 .Replace("{generators_activated}", generatorsActivated.ToString())
                 .Replace("{generators_max}", generatorsMax.ToString())
+                .Replace("{current_time}", currentTime)
                 .Replace("{hints}", CurrentHint);
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);

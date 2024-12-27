@@ -34,6 +34,12 @@ namespace CustomHint.Configs
         [Description("Default role color (for players without roles).")]
         public string DefaultRoleColor { get; set; } = "white";
 
+        [Description("Server timezone for placeholder. Use 'UTC' by default or a valid timezone ID (e.g., 'Europe/Kyiv').")]
+        public string ServerTimeZone { get; set; } = "UTC";
+
+        [Description("Enable counting Overwatch players in placeholder {spectators_num}.")]
+        public bool EnableOverwatchCounting { get; set; } = true;
+
         [Description("Ignored roles.")]
         public List<RoleTypeId> ExcludedRoles { get; set; } = new List<RoleTypeId>
         {
