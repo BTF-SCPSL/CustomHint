@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -8,10 +8,13 @@ using MEC;
 using Newtonsoft.Json.Linq;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using CustomHint.API;
+using CustomHint.Configs;
+using CustomHint.Handlers;
 
 namespace CustomHint
 {
-    public class Plugin : Plugin<Config, Translations>
+    public class Plugin : Plugin<Config, Translation>
     {
         public static Plugin Instance { get; private set; }
         public EventHandlers EventHandlers { get; private set; }
@@ -35,7 +38,7 @@ namespace CustomHint
 
         public override string Name => "CustomHint";
         public override string Author => "Narin & BTF Team";
-        public override Version Version => new Version(1, 3, 3);
+        public override Version Version => new Version(1, 4, 0);
         public override Version RequiredExiledVersion => new Version(9, 0, 0);
 
         public override void OnEnabled()
@@ -376,6 +379,11 @@ namespace CustomHint
             }
 
             return input;
+        }
+
+        internal string GetTimers(ReferenceHub player)
+        {
+            throw new NotImplementedException();
         }
     }
 }

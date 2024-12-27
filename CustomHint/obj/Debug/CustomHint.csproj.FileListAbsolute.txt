@@ -21,10 +21,10 @@ C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\UnityEngine.AssetB
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\obj\Debug\CustomHint.csproj.Up2Date
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\obj\Debug\CustomHint.dll
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\obj\Debug\CustomHint.pdb
-C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\AdvancedHints.dll
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\PluginAPI.dll
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\YamlDotNet (1).dll
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\Exiled.Loader.dll
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\SemanticVersioning.dll
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\Mono.Posix.dll
 C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\Newtonsoft.Json.dll
+C:\Users\SystemX\source\repos\CustomHint\CustomHint\bin\Debug\AdvancedHints.dll
