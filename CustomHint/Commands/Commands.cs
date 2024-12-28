@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using CommandSystem;
 using Exiled.API.Features;
 using RemoteAdmin;
 
-namespace CustomHint
+namespace CustomHint.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
     public class HideHudCommand : ICommand
@@ -14,9 +14,6 @@ namespace CustomHint
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            //Hello I added logic to get player before and just check if its null so you dont have to nest ifs.
-            //-saskyc
-
             var player = Player.Get(sender);
 
             if (!Plugin.Instance.Config.EnableHudCommands)
@@ -25,7 +22,7 @@ namespace CustomHint
                 return false;
             }
 
-            if(player == null)
+            if (player == null)
             {
                 response = "This command is for players only.";
                 return false;

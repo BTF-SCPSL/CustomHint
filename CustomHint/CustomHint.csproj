@@ -10,6 +10,7 @@
     <RootNamespace>CustomHint</RootNamespace>
     <AssemblyName>CustomHint</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>12</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -84,14 +85,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="EventHandlers.cs" />
-    <Compile Include="FileDotNet.cs" />
-    <Compile Include="Methods.cs" />
+    <Compile Include="API\FileDotNet.cs" />
+    <Compile Include="Commands\Commands.cs" />
+    <Compile Include="Configs\Config.cs" />
+    <Compile Include="Configs\Translation.cs" />
+    <Compile Include="Handlers\EventHandlers.cs" />
+    <Compile Include="Handlers\Methods.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Translations.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

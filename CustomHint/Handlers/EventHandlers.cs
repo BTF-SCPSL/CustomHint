@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,14 +7,14 @@ using Exiled.Events.EventArgs.Server;
 using MEC;
 using PlayerRoles;
 using PlayerRoles.PlayableScps.Scp079;
+using CustomHint.API;
 
-namespace CustomHint
+namespace CustomHint.Handlers
 {
     public class EventHandlers
     {
         private CoroutineHandle _hintUpdaterCoroutine;
         private CoroutineHandle _hintCoroutine;
-        private DateTime _roundStartTime;
         private bool _isRoundActive;
         private List<string> hints = new List<string>();
         private Queue<string> randomizedHints = new Queue<string>();
@@ -22,23 +22,19 @@ namespace CustomHint
 
         public void OnWaitingForPlayers()
         {
-            if (Plugin.Instance.Config.Debug)
-                Log.Debug("Waiting for players, disabling hints.");
+            Log.Debug("Waiting for players, enabling DisplayHintWFP.");
 
             _isRoundActive = false;
 
             Timing.KillCoroutines(_hintCoroutine);
-
             Plugin.Instance.SaveHiddenHudPlayers();
         }
 
         public void OnRoundStarted()
         {
-            if (Plugin.Instance.Config.Debug)
-                Log.Debug("Round started, enabling hints.");
+            Log.Debug("Round started, enabling hints.");
 
             _isRoundActive = true;
-            _roundStartTime = DateTime.UtcNow;
 
             LoadHints();
             StartHintUpdater();
@@ -47,11 +43,9 @@ namespace CustomHint
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            if (Plugin.Instance.Config.Debug)
-                Log.Debug("Round ended, disabling hints.");
+            Log.Debug("Round ended, disabling hints.");
 
             _isRoundActive = false;
-            _roundStartTime = default;
 
             Timing.KillCoroutines(_hintCoroutine);
             StopHintUpdater();
@@ -69,21 +63,6 @@ namespace CustomHint
                 Plugin.Instance.SaveHiddenHudPlayers();
                 Log.Debug($"Player {player.Nickname} ({player.UserId}) has DNT enabled and was removed from HiddenHudPlayers.");
                 return;
-            }
-
-            if (player.Role.Type == RoleTypeId.Spectator)
-            {
-                Log.Debug($"Player {player.Nickname} ({player.UserId}) is a spectator. HUD will be shown.");
-                return;
-            }
-
-            if (Plugin.Instance.HiddenHudPlayers.Contains(player.UserId))
-            {
-                Log.Debug($"Player {player.Nickname} ({player.UserId}) has HUD hidden.");
-            }
-            else
-            {
-                Log.Debug($"Player {player.Nickname} ({player.UserId}) has HUD shown.");
             }
         }
 
@@ -118,9 +97,6 @@ namespace CustomHint
         {
             while (_isRoundActive)
             {
-                //Removed roundDuration Variable and replaced with Round.ElapsedTime
-                //TODO: Test this -Saskyc.
-
                 foreach (var player in Player.List)
                 {
                     if (player.Role.Type == RoleTypeId.Spectator ||
@@ -139,7 +115,7 @@ namespace CustomHint
                     }
                 }
 
-                yield return Timing.WaitForSeconds(1f);
+                yield return Timing.WaitForSeconds(0.5f);
             }
         }
 
@@ -170,8 +146,11 @@ namespace CustomHint
                         facilityGuardCount++;
                         break;
                     case RoleTypeId.Spectator:
-                    case RoleTypeId.Overwatch:
                         spectatorsCount++;
+                        break;
+                    case RoleTypeId.Overwatch:
+                        if (Plugin.Instance.Config.EnableOverwatchCounting)
+                            spectatorsCount++;
                         break;
                     default:
                         break;
@@ -197,6 +176,8 @@ namespace CustomHint
 
             int generatorsActivated = Scp079Recontainer.AllGenerators.Count(generator => generator.Engaged);
             int generatorsMax = Scp079Recontainer.AllGenerators.Count;
+
+            string currentTime = Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone);
 
             string hintMessage;
             if (roundDuration.TotalSeconds <= 59)
@@ -226,6 +207,7 @@ namespace CustomHint
                 .Replace("{spectators_num}", spectatorsCount.ToString())
                 .Replace("{generators_activated}", generatorsActivated.ToString())
                 .Replace("{generators_max}", generatorsMax.ToString())
+                .Replace("{current_time}", currentTime)
                 .Replace("{hints}", CurrentHint);
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
@@ -257,8 +239,11 @@ namespace CustomHint
                         facilityGuardCount++;
                         break;
                     case RoleTypeId.Spectator:
-                    case RoleTypeId.Overwatch:
                         spectatorsCount++;
+                        break;
+                    case RoleTypeId.Overwatch:
+                        if (Plugin.Instance.Config.EnableOverwatchCounting)
+                            spectatorsCount++;
                         break;
                     default:
                         break;
@@ -285,6 +270,8 @@ namespace CustomHint
             int generatorsActivated = Scp079Recontainer.AllGenerators.Count(generator => generator.Engaged);
             int generatorsMax = Scp079Recontainer.AllGenerators.Count;
 
+            string currentTime = Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone);
+
             string hintMessage = Plugin.Instance.Translation.HintMessageForSpectators
                 .Replace("{round_duration_hours}", roundDuration.Hours.ToString("D2"))
                 .Replace("{round_duration_minutes}", roundDuration.Minutes.ToString("D2"))
@@ -305,6 +292,7 @@ namespace CustomHint
                 .Replace("{spectators_num}", spectatorsCount.ToString())
                 .Replace("{generators_activated}", generatorsActivated.ToString())
                 .Replace("{generators_max}", generatorsMax.ToString())
+                .Replace("{current_time}", currentTime)
                 .Replace("{hints}", CurrentHint);
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
