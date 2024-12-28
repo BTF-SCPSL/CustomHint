@@ -15,7 +15,6 @@ namespace CustomHint.Handlers
     {
         private CoroutineHandle _hintUpdaterCoroutine;
         private CoroutineHandle _hintCoroutine;
-        private DateTime _roundStartTime;
         private bool _isRoundActive;
         private List<string> hints = new List<string>();
         private Queue<string> randomizedHints = new Queue<string>();
@@ -23,23 +22,19 @@ namespace CustomHint.Handlers
 
         public void OnWaitingForPlayers()
         {
-            if (Plugin.Instance.Config.Debug)
-                Log.Debug("Waiting for players, disabling hints.");
+            Log.Debug("Waiting for players, enabling DisplayHintWFP.");
 
             _isRoundActive = false;
 
             Timing.KillCoroutines(_hintCoroutine);
-
             Plugin.Instance.SaveHiddenHudPlayers();
         }
 
         public void OnRoundStarted()
         {
-            if (Plugin.Instance.Config.Debug)
-                Log.Debug("Round started, enabling hints.");
+            Log.Debug("Round started, enabling hints.");
 
             _isRoundActive = true;
-            _roundStartTime = DateTime.UtcNow;
 
             LoadHints();
             StartHintUpdater();
@@ -48,11 +43,9 @@ namespace CustomHint.Handlers
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            if (Plugin.Instance.Config.Debug)
-                Log.Debug("Round ended, disabling hints.");
+            Log.Debug("Round ended, disabling hints.");
 
             _isRoundActive = false;
-            _roundStartTime = default;
 
             Timing.KillCoroutines(_hintCoroutine);
             StopHintUpdater();
@@ -70,21 +63,6 @@ namespace CustomHint.Handlers
                 Plugin.Instance.SaveHiddenHudPlayers();
                 Log.Debug($"Player {player.Nickname} ({player.UserId}) has DNT enabled and was removed from HiddenHudPlayers.");
                 return;
-            }
-
-            if (player.Role.Type == RoleTypeId.Spectator)
-            {
-                Log.Debug($"Player {player.Nickname} ({player.UserId}) is a spectator. HUD will be shown.");
-                return;
-            }
-
-            if (Plugin.Instance.HiddenHudPlayers.Contains(player.UserId))
-            {
-                Log.Debug($"Player {player.Nickname} ({player.UserId}) has HUD hidden.");
-            }
-            else
-            {
-                Log.Debug($"Player {player.Nickname} ({player.UserId}) has HUD shown.");
             }
         }
 
@@ -234,7 +212,7 @@ namespace CustomHint.Handlers
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
 
-            player.ShowHint(hintMessage, 3f);
+            player.ShowHint(hintMessage, 1f);
         }
 
         private void DisplayHintForSpectators(Player player, TimeSpan roundDuration)
@@ -319,7 +297,7 @@ namespace CustomHint.Handlers
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
 
-            player.ShowHint(hintMessage, 3f);
+            player.ShowHint(hintMessage, 1f);
         }
 
         private void StartHintUpdater()
