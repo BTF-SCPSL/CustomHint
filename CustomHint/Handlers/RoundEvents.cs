@@ -1,6 +1,7 @@
-﻿using MEC;
+using MEC;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Server;
+using System.Threading.Tasks;
 
 namespace CustomHint.Handlers
 {
@@ -21,6 +22,8 @@ namespace CustomHint.Handlers
 
             Timing.KillCoroutines(_hintCoroutine);
             Plugin.Instance.SaveHiddenHudPlayers();
+
+            Task.Run(() => Plugin.Instance.CheckForUpdates());
         }
 
         public void OnRoundStarted()
