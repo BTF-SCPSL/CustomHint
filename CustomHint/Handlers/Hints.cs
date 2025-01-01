@@ -69,7 +69,6 @@ namespace CustomHint.Handlers
             }
         }
 
-
         public void StartHintUpdater()
         {
             _hintUpdaterCoroutine = Timing.RunCoroutine(HintUpdater());
@@ -125,7 +124,6 @@ namespace CustomHint.Handlers
             { "{current_time}", (player, roundDuration) => Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone) },
             { "{hints}", (player, roundDuration) => Plugin.Instance.Hints.CurrentHint }
         };
-
 
         private string ReplacePlaceholders(string message, Player player, TimeSpan roundDuration)
         {
