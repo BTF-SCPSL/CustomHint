@@ -2,69 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Exiled.API.Features;
-using Exiled.Events.EventArgs.Server;
 using MEC;
+using Exiled.API.Features;
 using PlayerRoles;
 using PlayerRoles.PlayableScps.Scp079;
 using CustomHint.API;
 
 namespace CustomHint.Handlers
 {
-    public class EventHandlers
+    public class HintsSystem
     {
         private CoroutineHandle _hintUpdaterCoroutine;
-        private CoroutineHandle _hintCoroutine;
-        private bool _isRoundActive;
-        private List<string> hints = new List<string>();
         private Queue<string> randomizedHints = new Queue<string>();
-        private string PreviousHint { get; set; }
-
-        public void OnWaitingForPlayers()
-        {
-            Log.Debug("Waiting for players, enabling DisplayHintWFP.");
-
-            _isRoundActive = false;
-
-            Timing.KillCoroutines(_hintCoroutine);
-            Plugin.Instance.SaveHiddenHudPlayers();
-        }
-
-        public void OnRoundStarted()
-        {
-            Log.Debug("Round started, enabling hints.");
-
-            _isRoundActive = true;
-
-            LoadHints();
-            StartHintUpdater();
-            _hintCoroutine = Timing.RunCoroutine(ContinuousHintDisplay());
-        }
-
-        public void OnRoundEnded(RoundEndedEventArgs ev)
-        {
-            Log.Debug("Round ended, disabling hints.");
-
-            _isRoundActive = false;
-
-            Timing.KillCoroutines(_hintCoroutine);
-            StopHintUpdater();
-        }
-
-        public void OnPlayerVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)
-        {
-            Player player = ev.Player;
-
-            if (player.DoNotTrack)
-            {
-                if (!Plugin.Instance.HiddenHudPlayers.Remove(player.UserId))
-                    return;
-
-                Plugin.Instance.SaveHiddenHudPlayers();
-                Log.Debug($"Player {player.Nickname} ({player.UserId}) has DNT enabled and was removed from HiddenHudPlayers.");
-                return;
-            }
-        }
+        private List<string> hints = new List<string>();
 
         public void LoadHints()
         {
@@ -93,9 +43,9 @@ namespace CustomHint.Handlers
             }
         }
 
-        private IEnumerator<float> ContinuousHintDisplay()
+        public IEnumerator<float> ContinuousHintDisplay()
         {
-            while (_isRoundActive)
+            while (Plugin.Instance.RoundEvents.IsRoundActive)
             {
                 foreach (var player in Player.List)
                 {
@@ -118,6 +68,39 @@ namespace CustomHint.Handlers
                 yield return Timing.WaitForSeconds(0.5f);
             }
         }
+
+
+        public void StartHintUpdater()
+        {
+            _hintUpdaterCoroutine = Timing.RunCoroutine(HintUpdater());
+        }
+
+        public void StopHintUpdater()
+        {
+            Timing.KillCoroutines(_hintUpdaterCoroutine);
+            CurrentHint = "Hint not available";
+        }
+
+        private IEnumerator<float> HintUpdater()
+        {
+            while (Plugin.Instance.RoundEvents.IsRoundActive)
+            {
+                if (randomizedHints.Count == 0 && hints.Count > 0)
+                {
+                    randomizedHints = new Queue<string>(hints.OrderBy(_ => Guid.NewGuid()));
+                    Log.Debug("Refilled hints queue.");
+                }
+
+                if (randomizedHints.Count > 0)
+                {
+                    CurrentHint = randomizedHints.Dequeue();
+                    Log.Debug($"Updated current hint: {CurrentHint}");
+                }
+
+                yield return Timing.WaitForSeconds(Plugin.Instance.Config.HintMessageTime);
+            }
+        }
+
 
         private void DisplayHint(Player player, TimeSpan roundDuration)
         {
@@ -299,38 +282,6 @@ namespace CustomHint.Handlers
 
             player.ShowHint(hintMessage, 1f);
         }
-
-        private void StartHintUpdater()
-        {
-            _hintUpdaterCoroutine = Timing.RunCoroutine(HintUpdater());
-        }
-
-        private void StopHintUpdater()
-        {
-            Timing.KillCoroutines(_hintUpdaterCoroutine);
-            CurrentHint = "Hint not available";
-        }
-
-        private IEnumerator<float> HintUpdater()
-        {
-            while (_isRoundActive)
-            {
-                if (randomizedHints.Count == 0 && hints.Count > 0)
-                {
-                    randomizedHints = new Queue<string>(hints.OrderBy(_ => Guid.NewGuid()));
-                    Log.Debug("Refilled hints queue.");
-                }
-
-                if (randomizedHints.Count > 0)
-                {
-                    CurrentHint = randomizedHints.Dequeue();
-                    Log.Debug($"Updated current hint: {CurrentHint}");
-                }
-
-                yield return Timing.WaitForSeconds(Plugin.Instance.Config.HintMessageTime);
-            }
-        }
-
         private string GetColoredRoleName(Player player)
         {
             return player.Group != null
