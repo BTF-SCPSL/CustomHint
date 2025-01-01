@@ -36,9 +36,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Desktop\Файлы\Файлы\Хуйня какая-то\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="AdvancedHints">
-      <HintPath>..\..\..\..\Desktop\Файлы\Файлы\Хуйня какая-то\AdvancedHints.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\Desktop\Файлы\Файлы\Хуйня какая-то\Assembly-CSharp.dll</HintPath>
     </Reference>
@@ -89,8 +86,10 @@
     <Compile Include="Commands\Commands.cs" />
     <Compile Include="Configs\Config.cs" />
     <Compile Include="Configs\Translation.cs" />
-    <Compile Include="Handlers\EventHandlers.cs" />
+    <Compile Include="Handlers\Hints.cs" />
     <Compile Include="Handlers\Methods.cs" />
+    <Compile Include="Handlers\PlayerEvents.cs" />
+    <Compile Include="Handlers\RoundEvents.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
