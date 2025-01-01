@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -17,7 +17,9 @@ namespace CustomHint
     public class Plugin : Plugin<Config, Translation>
     {
         public static Plugin Instance { get; private set; }
-        public EventHandlers EventHandlers { get; private set; }
+        public PlayerEvents PlayerHandlers { get; private set; }
+        public RoundEvents RoundEvents { get; private set; }
+        public HintsSystem Hints { get; private set; }
         public HashSet<string> HiddenHudPlayers { get; private set; } = new HashSet<string>();
 
         private CoroutineHandle _hintCoroutine;
@@ -50,35 +52,39 @@ namespace CustomHint
 
             GenerateHintsFile();
             LoadHiddenHudPlayers();
-            EventHandlers = new EventHandlers();
 
-            Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
-            Exiled.Events.Handlers.Server.RoundStarted += EventHandlers.OnRoundStarted;
-            Exiled.Events.Handlers.Server.RoundEnded += EventHandlers.OnRoundEnded;
-            Exiled.Events.Handlers.Player.Verified += EventHandlers.OnPlayerVerified;
+            PlayerHandlers = new PlayerEvents();
+            RoundEvents = new RoundEvents();
+            Hints = new HintsSystem();
 
-            Log.Debug($"{Name} has been enabled.");
+            Exiled.Events.Handlers.Server.WaitingForPlayers += RoundEvents.OnWaitingForPlayers;
+            Exiled.Events.Handlers.Server.RoundStarted += RoundEvents.OnRoundStarted;
+            Exiled.Events.Handlers.Server.RoundEnded += RoundEvents.OnRoundEnded;
+            Exiled.Events.Handlers.Player.Verified += PlayerHandlers.OnPlayerVerified;
+
+            Task.Run(async () => await CheckForUpdates());
+
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
-            Exiled.Events.Handlers.Server.WaitingForPlayers -= OnWaitingForPlayers;
-            Exiled.Events.Handlers.Server.RoundStarted -= EventHandlers.OnRoundStarted;
-            Exiled.Events.Handlers.Server.RoundEnded -= EventHandlers.OnRoundEnded;
-            Exiled.Events.Handlers.Player.Verified -= EventHandlers.OnPlayerVerified;
+            Exiled.Events.Handlers.Server.WaitingForPlayers -= RoundEvents.OnWaitingForPlayers;
+            Exiled.Events.Handlers.Server.RoundStarted -= RoundEvents.OnRoundStarted;
+            Exiled.Events.Handlers.Server.RoundEnded -= RoundEvents.OnRoundEnded;
+            Exiled.Events.Handlers.Player.Verified -= PlayerHandlers.OnPlayerVerified;
 
-            Timing.KillCoroutines(_hintCoroutine);
+            Timing.KillCoroutines(Hints.CurrentHint);
             SaveHiddenHudPlayers();
 
             Instance = null;
-            EventHandlers = null;
+            PlayerHandlers = null;
+            Hints = null;
 
-            Log.Debug($"{Name} has been disabled.");
             base.OnDisabled();
         }
 
-        private async void OnWaitingForPlayers()
+        private async Task CheckForUpdates()
         {
             Log.Info($"Current version of the plugin: v{Version}");
             Log.Info("Checking for updates...");
@@ -214,7 +220,7 @@ namespace CustomHint
 
                         string targetPath;
                         if (fileName.Equals("CustomHint.dll", StringComparison.OrdinalIgnoreCase) ||
-                            fileName.Equals("AdvancedHints.dll", StringComparison.OrdinalIgnoreCase))
+                            fileName.Equals("HintServiceMeow.dll", StringComparison.OrdinalIgnoreCase))
                         {
                             targetPath = Path.Combine(Paths.Plugins, fileName);
                         }
