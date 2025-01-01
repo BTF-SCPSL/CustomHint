@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -69,7 +69,6 @@ namespace CustomHint.Handlers
             }
         }
 
-
         public void StartHintUpdater()
         {
             _hintUpdaterCoroutine = Timing.RunCoroutine(HintUpdater());
@@ -101,188 +100,80 @@ namespace CustomHint.Handlers
             }
         }
 
+        public static readonly Dictionary<string, Func<Player, TimeSpan, string>> CorePlaceholders = new()
+        {
+            { "{round_duration_hours}", (player, roundDuration) => roundDuration.Hours.ToString("D2") },
+            { "{round_duration_minutes}", (player, roundDuration) => roundDuration.Minutes.ToString("D2") },
+            { "{round_duration_seconds}", (player, roundDuration) => roundDuration.Seconds.ToString("D2") },
+            { "{player_nickname}", (player, roundDuration) => player.Nickname },
+            { "{player_role}", (player, roundDuration) => GetColoredRoleName(player) },
+            { "{player_gamerole}", (player, roundDuration) => Methods.GameRole(player) },
+            { "{tps}", (player, roundDuration) => ((int)Server.Tps).ToString() },
+            { "{servername}", (player, roundDuration) => Server.Name },
+            { "{ip}", (player, roundDuration) => Server.IpAddress },
+            { "{port}", (player, roundDuration) => Server.Port.ToString() },
+            { "{classd_num}", (player, roundDuration) => Methods.CountRoles().ClassD.ToString() },
+            { "{scientist_num}", (player, roundDuration) => Methods.CountRoles().Scientist.ToString() },
+            { "{facilityguard_num}", (player, roundDuration) => Methods.CountRoles().FacilityGuard.ToString() },
+            { "{mtf_num}", (player, roundDuration) => Methods.CountRoles().MTF.ToString() },
+            { "{ci_num}", (player, roundDuration) => Methods.CountRoles().ChaosInsurgency.ToString() },
+            { "{scp_num}", (player, roundDuration) => Methods.CountRoles().SCPs.ToString() },
+            { "{spectators_num}", (player, roundDuration) => Methods.CountRoles().Spectators.ToString() },
+            { "{generators_activated}", (player, roundDuration) => Scp079Recontainer.AllGenerators.Count(gen => gen.Engaged).ToString() },
+            { "{generators_max}", (player, roundDuration) => Scp079Recontainer.AllGenerators.Count.ToString() },
+            { "{current_time}", (player, roundDuration) => Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone) },
+            { "{hints}", (player, roundDuration) => Plugin.Instance.Hints.CurrentHint }
+        };
+
+        private string ReplacePlaceholders(string message, Player player, TimeSpan roundDuration)
+        {
+            foreach (var placeholder in CorePlaceholders)
+            {
+                message = message.Replace(placeholder.Key, placeholder.Value(player, roundDuration));
+            }
+
+            foreach (var placeholder in PlaceholderManager.GetAllPlaceholders())
+            {
+                if (CorePlaceholders.ContainsKey(placeholder.Key))
+                    continue;
+
+                var value = placeholder.Value.Invoke();
+                message = message.Replace(placeholder.Key, value ?? string.Empty);
+            }
+
+            return message;
+        }
 
         private void DisplayHint(Player player, TimeSpan roundDuration)
         {
             if (!Plugin.Instance.Config.GameHint)
                 return;
 
-            int classDCount = 0;
-            int scientistCount = 0;
-            int facilityGuardCount = 0;
-            int mtfCount = 0;
-            int ciCount = 0;
-            int scpCount = 0;
-            int spectatorsCount = 0;
-
-            foreach (Player p in Player.List)
-            {
-                switch (p.Role.Type)
-                {
-                    case RoleTypeId.ClassD:
-                        classDCount++;
-                        break;
-                    case RoleTypeId.Scientist:
-                        scientistCount++;
-                        break;
-                    case RoleTypeId.FacilityGuard:
-                        facilityGuardCount++;
-                        break;
-                    case RoleTypeId.Spectator:
-                        spectatorsCount++;
-                        break;
-                    case RoleTypeId.Overwatch:
-                        if (Plugin.Instance.Config.EnableOverwatchCounting)
-                            spectatorsCount++;
-                        break;
-                    default:
-                        break;
-                }
-
-                switch (p.Role.Team)
-                {
-                    case Team.FoundationForces:
-                        if (p.Role.Type != RoleTypeId.FacilityGuard && p.Role.Type != RoleTypeId.Scientist)
-                            mtfCount++;
-                        break;
-                    case Team.ChaosInsurgency:
-                        if (p.Role.Type != RoleTypeId.ClassD)
-                            ciCount++;
-                        break;
-                    case Team.SCPs:
-                        scpCount++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            int generatorsActivated = Scp079Recontainer.AllGenerators.Count(generator => generator.Engaged);
-            int generatorsMax = Scp079Recontainer.AllGenerators.Count;
-
-            string currentTime = Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone);
-
             string hintMessage;
-            if (roundDuration.TotalSeconds <= 59)
+            if (roundDuration.TotalSeconds <= 60)
                 hintMessage = Plugin.Instance.Translation.HintMessageUnderMinute;
             else if (roundDuration.TotalMinutes < 60)
                 hintMessage = Plugin.Instance.Translation.HintMessageUnderHour;
             else
                 hintMessage = Plugin.Instance.Translation.HintMessageOverHour;
 
-            hintMessage = hintMessage
-                .Replace("{round_duration_hours}", roundDuration.Hours.ToString("D2"))
-                .Replace("{round_duration_minutes}", roundDuration.Minutes.ToString("D2"))
-                .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"))
-                .Replace("{player_nickname}", player.Nickname)
-                .Replace("{player_role}", GetColoredRoleName(player))
-                .Replace("{player_gamerole}", Methods.GameRole(player))
-                .Replace("{tps}", ((int)Server.Tps).ToString())
-                .Replace("{servername}", Server.Name)
-                .Replace("{ip}", Server.IpAddress)
-                .Replace("{port}", Server.Port.ToString())
-                .Replace("{classd_num}", classDCount.ToString())
-                .Replace("{scientist_num}", scientistCount.ToString())
-                .Replace("{facilityguard_num}", facilityGuardCount.ToString())
-                .Replace("{mtf_num}", mtfCount.ToString())
-                .Replace("{ci_num}", ciCount.ToString())
-                .Replace("{scp_num}", scpCount.ToString())
-                .Replace("{spectators_num}", spectatorsCount.ToString())
-                .Replace("{generators_activated}", generatorsActivated.ToString())
-                .Replace("{generators_max}", generatorsMax.ToString())
-                .Replace("{current_time}", currentTime)
-                .Replace("{hints}", CurrentHint);
+            hintMessage = ReplacePlaceholders(hintMessage, player, roundDuration);
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
-
-            player.ShowHint(hintMessage, 1f);
+            player.ShowHint(hintMessage, 1.5f);
         }
 
         private void DisplayHintForSpectators(Player player, TimeSpan roundDuration)
         {
-            int classDCount = 0;
-            int scientistCount = 0;
-            int facilityGuardCount = 0;
-            int mtfCount = 0;
-            int ciCount = 0;
-            int scpCount = 0;
-            int spectatorsCount = 0;
+            string hintMessage = Plugin.Instance.Translation.HintMessageForSpectators;
 
-            foreach (Player p in Player.List)
-            {
-                switch (p.Role.Type)
-                {
-                    case RoleTypeId.ClassD:
-                        classDCount++;
-                        break;
-                    case RoleTypeId.Scientist:
-                        scientistCount++;
-                        break;
-                    case RoleTypeId.FacilityGuard:
-                        facilityGuardCount++;
-                        break;
-                    case RoleTypeId.Spectator:
-                        spectatorsCount++;
-                        break;
-                    case RoleTypeId.Overwatch:
-                        if (Plugin.Instance.Config.EnableOverwatchCounting)
-                            spectatorsCount++;
-                        break;
-                    default:
-                        break;
-                }
-
-                switch (p.Role.Team)
-                {
-                    case Team.FoundationForces:
-                        if (p.Role.Type != RoleTypeId.FacilityGuard && p.Role.Type != RoleTypeId.Scientist)
-                            mtfCount++;
-                        break;
-                    case Team.ChaosInsurgency:
-                        if (p.Role.Type != RoleTypeId.ClassD)
-                            ciCount++;
-                        break;
-                    case Team.SCPs:
-                        scpCount++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            int generatorsActivated = Scp079Recontainer.AllGenerators.Count(generator => generator.Engaged);
-            int generatorsMax = Scp079Recontainer.AllGenerators.Count;
-
-            string currentTime = Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone);
-
-            string hintMessage = Plugin.Instance.Translation.HintMessageForSpectators
-                .Replace("{round_duration_hours}", roundDuration.Hours.ToString("D2"))
-                .Replace("{round_duration_minutes}", roundDuration.Minutes.ToString("D2"))
-                .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"))
-                .Replace("{player_nickname}", player.Nickname)
-                .Replace("{player_role}", GetColoredRoleName(player))
-                .Replace("{player_gamerole}", Methods.GameRole(player))
-                .Replace("{tps}", ((int)Server.Tps).ToString())
-                .Replace("{servername}", Server.Name)
-                .Replace("{ip}", Server.IpAddress)
-                .Replace("{port}", Server.Port.ToString())
-                .Replace("{classd_num}", classDCount.ToString())
-                .Replace("{scientist_num}", scientistCount.ToString())
-                .Replace("{facilityguard_num}", facilityGuardCount.ToString())
-                .Replace("{mtf_num}", mtfCount.ToString())
-                .Replace("{ci_num}", ciCount.ToString())
-                .Replace("{scp_num}", scpCount.ToString())
-                .Replace("{spectators_num}", spectatorsCount.ToString())
-                .Replace("{generators_activated}", generatorsActivated.ToString())
-                .Replace("{generators_max}", generatorsMax.ToString())
-                .Replace("{current_time}", currentTime)
-                .Replace("{hints}", CurrentHint);
+            hintMessage = ReplacePlaceholders(hintMessage, player, roundDuration);
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
-
-            player.ShowHint(hintMessage, 1f);
+            player.ShowHint(hintMessage, 1.5f);
         }
-        private string GetColoredRoleName(Player player)
+
+        private static string GetColoredRoleName(Player player)
         {
             return player.Group != null
                 ? $"<color={player.Group.BadgeColor ?? Plugin.Instance.Config.DefaultRoleColor}>{player.Group.BadgeText}</color>"
