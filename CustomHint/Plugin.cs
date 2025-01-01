@@ -62,8 +62,6 @@ namespace CustomHint
             Exiled.Events.Handlers.Server.RoundEnded += RoundEvents.OnRoundEnded;
             Exiled.Events.Handlers.Player.Verified += PlayerHandlers.OnPlayerVerified;
 
-            Task.Run(async () => await CheckForUpdates());
-
             base.OnEnabled();
         }
 
@@ -84,7 +82,7 @@ namespace CustomHint
             base.OnDisabled();
         }
 
-        private async Task CheckForUpdates()
+        public async Task CheckForUpdates()
         {
             Log.Info($"Current version of the plugin: v{Version}");
             Log.Info("Checking for updates...");
