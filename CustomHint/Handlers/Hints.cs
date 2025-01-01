@@ -162,7 +162,7 @@ namespace CustomHint.Handlers
             hintMessage = ReplacePlaceholders(hintMessage, player, roundDuration);
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
-            player.ShowHint(hintMessage, 3f);
+            player.ShowHint(hintMessage, 1.5f);
         }
 
         private void DisplayHintForSpectators(Player player, TimeSpan roundDuration)
@@ -172,7 +172,7 @@ namespace CustomHint.Handlers
             hintMessage = ReplacePlaceholders(hintMessage, player, roundDuration);
 
             hintMessage = Plugin.ReplaceColorsInString(hintMessage);
-            player.ShowHint(hintMessage, 3f);
+            player.ShowHint(hintMessage, 1.5f);
         }
 
         private static string GetColoredRoleName(Player player)
