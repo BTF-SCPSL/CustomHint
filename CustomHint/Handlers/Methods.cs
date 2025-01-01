@@ -1,7 +1,8 @@
-﻿using System.Globalization;
 using System;
 using System.Linq;
+using System.Globalization;
 using Exiled.API.Features;
+using PlayerRoles;
 
 namespace CustomHint.Handlers
 {
@@ -34,6 +35,66 @@ namespace CustomHint.Handlers
                 Log.Error($"Error while getting current time: {ex}");
                 return "N/A";
             }
+        }
+
+        public static RoleCounts CountRoles(bool includeOverwatchInSpectators = true)
+        {
+            var counts = new RoleCounts();
+
+            foreach (Player player in Player.List)
+            {
+                switch (player.Role.Type)
+                {
+                    case RoleTypeId.ClassD:
+                        counts.ClassD++;
+                        break;
+                    case RoleTypeId.Scientist:
+                        counts.Scientist++;
+                        break;
+                    case RoleTypeId.FacilityGuard:
+                        counts.FacilityGuard++;
+                        break;
+                    case RoleTypeId.Spectator:
+                        counts.Spectators++;
+                        break;
+                    case RoleTypeId.Overwatch:
+                        if (Plugin.Instance.Config.EnableOverwatchCounting)
+                            counts.Spectators++;
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (player.Role.Team)
+                {
+                    case Team.FoundationForces:
+                        if (player.Role.Type != RoleTypeId.FacilityGuard && player.Role.Type != RoleTypeId.Scientist)
+                            counts.MTF++;
+                        break;
+                    case Team.ChaosInsurgency:
+                        if (player.Role.Type != RoleTypeId.ClassD)
+                            counts.ChaosInsurgency++;
+                        break;
+                    case Team.SCPs:
+                        counts.SCPs++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return counts;
+        }
+
+        public struct RoleCounts
+        {
+            public int ClassD;
+            public int Scientist;
+            public int FacilityGuard;
+            public int MTF;
+            public int ChaosInsurgency;
+            public int SCPs;
+            public int Spectators;
         }
     }
 }
