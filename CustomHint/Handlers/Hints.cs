@@ -151,22 +151,28 @@ namespace CustomHint.Handlers
             if (!Plugin.Instance.Config.GameHint)
                 return;
 
-            string message = Plugin.Instance.Translation.HintMessageUnderMinute;
+            string hintMessage;
+            if (roundDuration.TotalSeconds <= 60)
+                hintMessage = Plugin.Instance.Translation.HintMessageUnderMinute;
+            else if (roundDuration.TotalMinutes < 60)
+                hintMessage = Plugin.Instance.Translation.HintMessageUnderHour;
+            else
+                hintMessage = Plugin.Instance.Translation.HintMessageOverHour;
 
-            message = ReplacePlaceholders(message, player, roundDuration);
+            hintMessage = ReplacePlaceholders(hintMessage, player, roundDuration);
 
-            message = Plugin.ReplaceColorsInString(message);
-            player.ShowHint(message, 1f);
+            hintMessage = Plugin.ReplaceColorsInString(hintMessage);
+            player.ShowHint(hintMessage, 3f);
         }
 
         private void DisplayHintForSpectators(Player player, TimeSpan roundDuration)
         {
-            string message = Plugin.Instance.Translation.HintMessageForSpectators;
+            string hintMessage = Plugin.Instance.Translation.HintMessageForSpectators;
 
-            message = ReplacePlaceholders(message, player, roundDuration);
+            hintMessage = ReplacePlaceholders(hintMessage, player, roundDuration);
 
-            message = Plugin.ReplaceColorsInString(message);
-            player.ShowHint(message, 1f);
+            hintMessage = Plugin.ReplaceColorsInString(hintMessage);
+            player.ShowHint(hintMessage, 3f);
         }
 
         private static string GetColoredRoleName(Player player)
