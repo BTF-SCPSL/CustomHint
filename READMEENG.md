@@ -180,4 +180,4 @@ Thank you to everyone who uses this plugin. Best of luck!
 ## Third-party placeholders
 | Author            | Name            | Description                                 |
 | ----------------------- | ----------------------- | ------------------------------------------ |
-| None.            | None.                               | None.                               |
+| [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays STEAMID64 as a placeholder.                               |
