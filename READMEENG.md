@@ -181,4 +181,4 @@ Thank you to everyone who uses this plugin. Best of luck!
 | Author            | Name            | Description                                 |
 | ----------------------- | ----------------------- | ------------------------------------------ |
 | [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays STEAMID64.                               |
-| [Chuppa2](https://github.com/Chuppa2/Roblox-Multi-Instance)            | [CRCHPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays a spectated players custom info.                               |
+| [Chuppa2](https://github.com/Chuppa2)            | [CRCHPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays a spectated players custom info.                               |
