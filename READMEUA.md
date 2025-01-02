@@ -176,4 +176,4 @@ custom_hint:
 ## Сторонні placeholders  
 | Автор            | Назва               | Опис                                     |  
 | ----------------- | ------------------- | ---------------------------------------- |  
-| Нічого.          | Нічого.             | Нічого.                                 |  
+| [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder) | Відображає STEAMID64 у вигляді плейсхолдера.                                 |  
