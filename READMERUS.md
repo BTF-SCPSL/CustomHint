@@ -177,3 +177,4 @@ custom_hint:
 | Автор            | Название            | Описание                                 |
 | ----------------------- | ----------------------- | ------------------------------------------ |
 | [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder) | Отображает STEAMID64 в виде плейсхолдера. |
+| [Chuppa2](https://github.com/Chuppa2)            | [CRCHPlaceholder](https://github.com/Chuppa2/CRCHPlaceholder)                               | Отображает пользовательскую информацию наблюдаемого игрока.                               |
