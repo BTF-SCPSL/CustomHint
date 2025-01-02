@@ -180,5 +180,5 @@ Thank you to everyone who uses this plugin. Best of luck!
 ## Third-party placeholders
 | Author            | Name            | Description                                 |
 | ----------------------- | ----------------------- | ------------------------------------------ |
-| [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays STEAMID64 as a placeholder.                               |
+| [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays STEAMID64.                               |
 | [Chuppa2](https://github.com/Chuppa2/Roblox-Multi-Instance)            | [CRCHPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays a spectated players custom info.                               |
