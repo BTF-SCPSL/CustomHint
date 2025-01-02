@@ -170,7 +170,7 @@ Thank you to everyone who uses this plugin. Best of luck!
 | {facilityguard_num}     | Number of Facility Guards.                 |
 | {mtf_num}               | Number of MTFs.                            |
 | {ci_num}                | Number of Chaos Insurgents.                |
-| {scp_num}               | Number of SCP objects.                     |
+| {scp_num}               | Number of SCP subjects.                     |
 | {spectators_num}        | Number of spectators (including Overwatch).|
 | {generators_activated}  | Number of activated generators.            |
 | {generators_max}        | Maximum number of generators.              |
