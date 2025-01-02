@@ -9,7 +9,7 @@ namespace CustomHint.API
     {
         private static readonly Dictionary<string, Func<string>> GlobalPlaceholders = new();
         private static readonly Dictionary<string, Func<Player, string>> PlayerPlaceholders = new();
-        private static readonly Dictionary<string, Func<string, string>> SteamID64Placeholders = new();
+        private static readonly Dictionary<string, Dictionary<string, Func<string>>> SteamID64Placeholders = new();
 
         /// <summary>
         /// Registers a global placeholder.
@@ -48,20 +48,6 @@ namespace CustomHint.API
         /// <summary>
         /// Registers a placeholder associated with a specific SteamID64.
         /// </summary>
-        /// <param name="key">The placeholder key (e.g., {custom_placeholder}).</param>
-        /// <param name="steamId64">The SteamID64 as a <see cref="long"/>.</param>
-        /// <param name="valueProvider">A function that returns the value for the placeholder.</param>
-        public static void RegisterSteamID64Placeholder(string key, long steamId64, Func<string> valueProvider)
-        {
-            RegisterSteamID64Placeholder(key, steamId64.ToString(), valueProvider);
-        }
-
-        /// <summary>
-        /// Registers a placeholder associated with a specific SteamID64.
-        /// </summary>
-        /// <param name="key">The placeholder key (e.g., {custom_placeholder}).</param>
-        /// <param name="identifier">The SteamID64 or Player.UserId as a <see cref="string"/>.</param>
-        /// <param name="valueProvider">A function that returns the value for the placeholder.</param>
         public static void RegisterSteamID64Placeholder(string key, string identifier, Func<string> valueProvider)
         {
             if (string.IsNullOrWhiteSpace(key) || !key.StartsWith("{") || !key.EndsWith("}"))
@@ -73,35 +59,70 @@ namespace CustomHint.API
             if (string.IsNullOrWhiteSpace(identifier))
                 throw new ArgumentException("Identifier cannot be null or whitespace.");
 
-            // Extract SteamID64 if the identifier contains '@steam'
-            string steamId64 = identifier.Contains("@steam")
-                ? identifier.Split('@')[0]
-                : identifier;
+            string steamId64 = identifier.Contains("@steam") ? identifier.Split('@')[0] : identifier;
 
             if (!SteamID64Placeholders.ContainsKey(key))
             {
-                SteamID64Placeholders.Add(key, _ => valueProvider());
+                SteamID64Placeholders[key] = new Dictionary<string, Func<string>>();
             }
+
+            SteamID64Placeholders[key][steamId64] = valueProvider;
         }
 
         /// <summary>
         /// Retrieves the value for the specified SteamID64-specific placeholder.
         /// </summary>
-        /// <param name="key">The placeholder key.</param>
-        /// <param name="steamID64">The SteamID64 for whom the placeholder value is requested.</param>
-        /// <returns>The placeholder value, or null if it is not registered.</returns>
         public static string GetSteamID64PlaceholderValue(string key, string steamID64)
         {
-            return SteamID64Placeholders.TryGetValue(key, out var valueProvider) ? valueProvider(steamID64) : null;
+            if (SteamID64Placeholders.TryGetValue(key, out var playerPlaceholders))
+            {
+                if (playerPlaceholders.TryGetValue(steamID64, out var valueProvider))
+                {
+                    try
+                    {
+                        return valueProvider();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"Error while retrieving value for placeholder '{key}' with SteamID64 '{steamID64}': {ex}");
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Removes a SteamID64-specific placeholder for a given key and identifier.
+        /// </summary>
+        public static void RemoveSteamID64Placeholder(string key, string identifier)
+        {
+            string steamId64 = identifier.Contains("@steam") ? identifier.Split('@')[0] : identifier;
+
+            if (SteamID64Placeholders.TryGetValue(key, out var playerPlaceholders))
+            {
+                playerPlaceholders.Remove(steamId64);
+
+                if (playerPlaceholders.Count == 0)
+                {
+                    SteamID64Placeholders.Remove(key);
+                }
+            }
         }
 
         /// <summary>
         /// Returns all registered SteamID64-specific placeholders.
         /// </summary>
-        /// <returns>A dictionary of registered SteamID64-specific placeholders.</returns>
-        public static IReadOnlyDictionary<string, Func<string, string>> GetAllSteamID64Placeholders()
+        public static IReadOnlyDictionary<string, IReadOnlyDictionary<string, Func<string>>> GetAllSteamID64Placeholders()
         {
-            return SteamID64Placeholders;
+            var result = new Dictionary<string, IReadOnlyDictionary<string, Func<string>>>();
+
+            foreach (var key in SteamID64Placeholders)
+            {
+                result[key.Key] = new Dictionary<string, Func<string>>(key.Value);
+            }
+
+            return result;
         }
 
         public static string GetGlobalPlaceholderValue(string key)
