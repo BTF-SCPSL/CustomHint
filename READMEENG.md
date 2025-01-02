@@ -176,3 +176,8 @@ Thank you to everyone who uses this plugin. Best of luck!
 | {generators_max}        | Maximum number of generators.              |
 | {current_time}        | Current real time in your time zone.              |
 | {hints}                 | Hints from the Hints.txt file.             |
+
+## Third-party placeholders
+| Author            | Name            | Description                                 |
+| ----------------------- | ----------------------- | ------------------------------------------ |
+| None.            | None.                               | None.                               |
