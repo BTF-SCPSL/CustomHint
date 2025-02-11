@@ -182,4 +182,4 @@ Thank you to everyone who uses this plugin. Best of luck!
 | ----------------------- | ----------------------- | ------------------------------------------ |
 | [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays STEAMID64.                               |
 | [Chuppa2](https://github.com/Chuppa2)            | [CRCHPlaceholder](https://github.com/Chuppa2/CRCHPlaceholder)                               | Displays a spectated players custom info.                               |
-| [Narin](https://github.com/Narin4ik)            | [RespawnTimer](https://github.com/Narin4ik/RespawnTimer)                               | Adding a timer until the spawn of MTF and CI.                               |
+| [Narin](https://github.com/Narin4ik)            | [RespawnTimer](https://github.com/Narin4ik/RespawnTimer)                               | Adding a timers until the spawn of MTF and CI.                               |
