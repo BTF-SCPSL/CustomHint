@@ -22,7 +22,6 @@ namespace CustomHint
         public HintsSystem Hints { get; private set; }
         public HashSet<string> HiddenHudPlayers { get; private set; } = new HashSet<string>();
 
-        private CoroutineHandle _hintCoroutine;
         private string HudConfig = FileDotNet.GetPath("HiddenHudPlayers.yml");
 
         private static readonly IDeserializer Deserializer = new DeserializerBuilder()
@@ -40,7 +39,7 @@ namespace CustomHint
 
         public override string Name => "CustomHint";
         public override string Author => "Narin & BTF Team";
-        public override Version Version => new Version(1, 4, 1);
+        public override Version Version => new Version(1, 5, 0);
         public override Version RequiredExiledVersion => new Version(9, 0, 0);
 
         public override void OnEnabled()
