@@ -86,6 +86,25 @@ namespace CustomHint.Handlers
             return counts;
         }
 
+        public static string GetRoundTime(TimeSpan roundDuration)
+        {
+            var translationroundtime = Plugin.Instance.Translation.RoundTimeFormats;
+
+            if (roundDuration.TotalSeconds <= 60)
+                return translationroundtime["seconds"]
+                    .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"));
+
+            if (roundDuration.TotalMinutes < 60)
+                return translationroundtime["minutes"]
+                    .Replace("{round_duration_minutes}", roundDuration.Minutes.ToString("D2"))
+                    .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"));
+
+            return translationroundtime["hours"]
+                .Replace("{round_duration_hours}", roundDuration.Hours.ToString("D2"))
+                .Replace("{round_duration_minutes}", roundDuration.Minutes.ToString("D2"))
+                .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"));
+        }
+
         public struct RoleCounts
         {
             public int ClassD;
