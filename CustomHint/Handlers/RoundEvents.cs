@@ -17,7 +17,7 @@ namespace CustomHint.Handlers
 
         public void OnWaitingForPlayers()
         {
-            Log.Debug("Waiting for players, enabling DisplayHintWFP.");
+            Log.Debug("Waiting for players...");
             _isRoundActive = false;
 
             Timing.KillCoroutines(_hintCoroutine);
@@ -33,7 +33,12 @@ namespace CustomHint.Handlers
 
             Plugin.Instance.Hints.LoadHints();
             Plugin.Instance.Hints.StartHintUpdater();
-            _hintCoroutine = Timing.RunCoroutine(Plugin.Instance.Hints.ContinuousHintDisplay());
+
+            foreach (var player in Player.List)
+            {
+                Plugin.Instance.Hints.RemoveHints(player);
+                Plugin.Instance.Hints.AssignHints(player);
+            }
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
@@ -43,6 +48,11 @@ namespace CustomHint.Handlers
 
             Timing.KillCoroutines(_hintCoroutine);
             Plugin.Instance.Hints.StopHintUpdater();
+
+            foreach (var player in Player.List)
+            {
+                Plugin.Instance.Hints.RemoveHints(player);
+            }
         }
     }
 }
