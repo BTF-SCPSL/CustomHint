@@ -8,13 +8,13 @@ namespace CustomHint.Configs
     public class Translation : ITranslation
     {
         [Description("Message displayed when the HUD is successfully hidden.")]
-        public string HideHudSuccessMessage { get; set; } = "<color=green>You have successfully hidden the server HUD! Changes are applied after a role change. To get the HUD back, use .showhud.</color>";
+        public string HideHudSuccessMessage { get; set; } = "<color=green>You have successfully hidden the server HUD! To get the HUD back, use .showhud.</color>";
 
         [Description("Message displayed when HUD is already hidden.")]
         public string HideHudAlreadyHiddenMessage { get; set; } = "<color=red>You've already hidden the server HUD.</color>";
 
         [Description("Message displayed when HUD is successfully shown.")]
-        public string ShowHudSuccessMessage { get; set; } = "<color=green>You have successfully returned the server HUD! Changes are applied after a role change. To hide again, use .hidehud</color>";
+        public string ShowHudSuccessMessage { get; set; } = "<color=green>You have successfully returned the server HUD! To hide again, use .hidehud</color>";
 
         [Description("Message displayed when HUD is already shown.")]
         public string ShowHudAlreadyShownMessage { get; set; } = "<color=red>You already have the server HUD displayed.</color>";
