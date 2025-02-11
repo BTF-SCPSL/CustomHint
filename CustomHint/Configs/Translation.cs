@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Exiled.API.Interfaces;
 using PlayerRoles;
@@ -7,26 +7,14 @@ namespace CustomHint.Configs
 {
     public class Translation : ITranslation
     {
-        [Description("Hint message for spectators.")]
-        public string HintMessageForSpectators { get; set; } = "<size=75%>{servername}\n{ip}:{port}\n\n{player_nickname}, spec, duration: {round_duration_hours}:{round_duration_minutes}:{round_duration_seconds}.\nRole: {player_role}\nTPS: {tps}/60\n\nInformation:\nClass-D personnel: {classd_num} || Scientists: {scientist_num} || Facility Guards: {facilityguard_num} || MTF: {mtf_num} || CI: {ci_num} || SCPs: {scp_num} || Spectators: {spectators_num}\nGenerators activated: {generators_activated}/{generators_max}\n\n{hints}</size>";
-
-        [Description("Hint message for rounds lasting up to 59 seconds.")]
-        public string HintMessageUnderMinute { get; set; } = "<size=75%>{servername}\n{ip}:{port}\n\nQuick start! {player_nickname}, round time: {round_duration_seconds}s.\nGame Role: {player_gamerole} || Server Role: {player_role}\nTPS: {tps}/60</size>\n\nReal time: {current_time}";
-
-        [Description("Hint message for rounds lasting from 1 to 59 min & 59 sec")]
-        public string HintMessageUnderHour { get; set; } = "<size=75%>{servername}\n{ip}:{port}\n\nStill going, {player_nickname}! Time: {round_duration_minutes}:{round_duration_seconds}.\nGame Role: {player_gamerole} || Server Role: {player_role}\nTPS: {tps}/60</size>\n\nReal time: {current_time}";
-
-        [Description("Hint message for rounds lasting 1 hour or more.")]
-        public string HintMessageOverHour { get; set; } = "<size=75%>{servername}\n{ip}:{port}\n\nLong run, {player_nickname}! Duration: {round_duration_hours}:{round_duration_minutes}:{round_duration_seconds}.\nGame Role: {player_gamerole} || Server Role: {player_role}\nTPS: {tps}/60</size>\n\nReal time: {current_time}";
-
         [Description("Message displayed when the HUD is successfully hidden.")]
-        public string HideHudSuccessMessage { get; set; } = "<color=green>You have successfully hidden the server HUD! To get the HUD back, use .showhud</color>";
+        public string HideHudSuccessMessage { get; set; } = "<color=green>You have successfully hidden the server HUD! Changes are applied after a role change. To get the HUD back, use .showhud.</color>";
 
         [Description("Message displayed when HUD is already hidden.")]
         public string HideHudAlreadyHiddenMessage { get; set; } = "<color=red>You've already hidden the server HUD.</color>";
 
         [Description("Message displayed when HUD is successfully shown.")]
-        public string ShowHudSuccessMessage { get; set; } = "<color=green>You have successfully returned the server HUD! To hide again, use .hidehud</color>";
+        public string ShowHudSuccessMessage { get; set; } = "<color=green>You have successfully returned the server HUD! Changes are applied after a role change. To hide again, use .hidehud</color>";
 
         [Description("Message displayed when HUD is already shown.")]
         public string ShowHudAlreadyShownMessage { get; set; } = "<color=red>You already have the server HUD displayed.</color>";
@@ -36,6 +24,14 @@ namespace CustomHint.Configs
 
         [Description("Message displayed when commands are disabled on the server.")]
         public string CommandDisabledMessage { get; set; } = "<color=red>This command is disabled on the server.</color>";
+
+        [Description("Round time.")]
+        public Dictionary<string, string> RoundTimeFormats { get; set; } = new()
+        {
+            { "seconds", "{round_duration_seconds} seconds" },
+            { "minutes", "{round_duration_minutes} minutes {round_duration_seconds} seconds" },
+            { "hours", "{round_duration_hours} hours {round_duration_minutes} minutes {round_duration_seconds} seconds" }
+        };
 
         [Description("Game Role of a player, {player_gamerole} is placeholder.")]
         public List<RoleName> GameRoles { get; set; } = new()
