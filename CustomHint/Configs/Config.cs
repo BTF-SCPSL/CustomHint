@@ -19,13 +19,7 @@ namespace CustomHint.Configs
         [Description("Enable or disable automatic plugin updates.")]
         public bool AutoUpdater { get; set; } = true;
 
-        [Description("Enable or disable game hints.")]
-        public bool GameHint { get; set; } = true;
-
-        [Description("Enable or disable hints for spectators.")]
-        public bool HintForSpectatorsIsEnabled { get; set; } = true;
-
-        [Description("The interval for changing spectator hints (in seconds).")]
+        [Description("The interval for changing {hints} placeholder (in seconds).")]
         public float HintMessageTime { get; set; } = 5f;
 
         [Description("Default role name for players without a role.")]
@@ -40,12 +34,30 @@ namespace CustomHint.Configs
         [Description("Enable counting Overwatch players in placeholder {spectators_num}.")]
         public bool EnableOverwatchCounting { get; set; } = true;
 
-        [Description("Ignored roles.")]
-        public List<RoleTypeId> ExcludedRoles { get; set; } = new List<RoleTypeId>
+        [Description("List of hints.")]
+        public List<HintConfig> Hints { get; set; } = new()
         {
-            RoleTypeId.Overwatch,
-            RoleTypeId.Filmmaker,
-            RoleTypeId.Scp079
+            new HintConfig
+            {
+                Id = "firsthint",
+                Text = "Hello World!",
+                FontSize = 15,
+                PositionX = 500,
+                PositionY = 500,
+                CanBeHidden = true,
+                Roles = new List<RoleTypeId> { RoleTypeId.ClassD }
+            }
         };
+    }
+
+    public class HintConfig
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+        public float FontSize { get; set; }
+        public float PositionX { get; set; }
+        public float PositionY { get; set; }
+        public bool CanBeHidden { get; set; }
+        public List<RoleTypeId> Roles { get; set; } = new();
     }
 }
