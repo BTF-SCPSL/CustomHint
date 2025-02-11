@@ -217,7 +217,7 @@ namespace CustomHint
 
                         string targetPath;
                         if (fileName.Equals("CustomHint.dll", StringComparison.OrdinalIgnoreCase) ||
-                            fileName.Equals("AdvancedHints.dll", StringComparison.OrdinalIgnoreCase))
+                            fileName.Equals("HintServiceMeow.dll", StringComparison.OrdinalIgnoreCase))
                         {
                             targetPath = Path.Combine(Paths.Plugins, fileName);
                         }
