@@ -19,7 +19,7 @@ namespace CustomHint.Commands
 
             if (!Plugin.Instance.Config.EnableHudCommands)
             {
-                response = "This command is disabled.";
+                response = Plugin.Instance.Translation.CommandDisabledMessage;
                 return false;
             }
 
@@ -31,13 +31,13 @@ namespace CustomHint.Commands
 
             if (player.DoNotTrack)
             {
-                response = "Disable DNT mode to use this command.";
+                response = Plugin.Instance.Translation.DntEnabledMessage;
                 return false;
             }
 
             if (Plugin.Instance.HiddenHudPlayers.Contains(player.UserId))
             {
-                response = "HUD is already hidden.";
+                response = Plugin.Instance.Translation.HideHudAlreadyHiddenMessage;
                 return false;
             }
 
@@ -47,7 +47,7 @@ namespace CustomHint.Commands
             Plugin.Instance.Hints.RemoveHints(player);
             Plugin.Instance.Hints.AssignHints(player);
 
-            response = "HUD successfully hidden.";
+            response = Plugin.Instance.Translation.HideHudSuccessMessage;
             return true;
         }
     }
@@ -65,7 +65,7 @@ namespace CustomHint.Commands
 
             if (!Plugin.Instance.Config.EnableHudCommands)
             {
-                response = "This command is disabled.";
+                response = Plugin.Instance.Translation.CommandDisabledMessage;
                 return false;
             }
 
@@ -77,13 +77,13 @@ namespace CustomHint.Commands
 
             if (player.DoNotTrack)
             {
-                response = "Disable DNT mode to use this command.";
+                response = Plugin.Instance.Translation.DntEnabledMessage;
                 return false;
             }
 
             if (!Plugin.Instance.HiddenHudPlayers.Contains(player.UserId))
             {
-                response = "HUD is already visible.";
+                response = Plugin.Instance.Translation.ShowHudAlreadyShownMessage;
                 return false;
             }
 
@@ -93,7 +93,7 @@ namespace CustomHint.Commands
             Plugin.Instance.Hints.RemoveHints(player);
             Plugin.Instance.Hints.AssignHints(player);
 
-            response = "HUD successfully restored.";
+            response = Plugin.Instance.Translation.ShowHudSuccessMessage;
             return true;
         }
     }
