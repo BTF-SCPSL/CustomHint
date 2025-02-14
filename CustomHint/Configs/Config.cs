@@ -34,6 +34,9 @@ namespace CustomHint.Configs
         [Description("Enable counting Overwatch players in placeholder {spectators_num}.")]
         public bool EnableOverwatchCounting { get; set; } = true;
 
+        [Description("Sync speed for hints. Available values: UnSync, Slowest, Slow, Normal, Fast, Fastest.")]
+        public string SyncSpeed { get; set; } = "Fastest";
+
         [Description("List of hints.")]
         public List<HintConfig> Hints { get; set; } = new()
         {

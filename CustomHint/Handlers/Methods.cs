@@ -37,7 +37,7 @@ namespace CustomHint.Handlers
             }
         }
 
-        public static RoleCounts CountRoles(bool includeOverwatchInSpectators = true)
+        public static RoleCounts CountRoles()
         {
             var counts = new RoleCounts();
 

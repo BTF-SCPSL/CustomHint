@@ -1,4 +1,3 @@
-using MEC;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Server;
 using System.Threading.Tasks;
@@ -7,7 +6,6 @@ namespace CustomHint.Handlers
 {
     public class RoundEvents
     {
-        private CoroutineHandle _hintCoroutine;
         private bool _isRoundActive;
 
         public bool IsRoundActive
@@ -20,7 +18,6 @@ namespace CustomHint.Handlers
             Log.Debug("Waiting for players...");
             _isRoundActive = false;
 
-            Timing.KillCoroutines(_hintCoroutine);
             Plugin.Instance.SaveHiddenHudPlayers();
 
             Task.Run(() => Plugin.Instance.CheckForUpdates());
@@ -28,7 +25,7 @@ namespace CustomHint.Handlers
 
         public void OnRoundStarted()
         {
-            Log.Debug("Round started, enabling hints.");
+            Log.Debug("Round started.");
             _isRoundActive = true;
 
             Plugin.Instance.Hints.LoadHints();
@@ -43,10 +40,9 @@ namespace CustomHint.Handlers
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            Log.Debug("Round ended, disabling hints.");
+            Log.Debug("Round ended.");
             _isRoundActive = false;
 
-            Timing.KillCoroutines(_hintCoroutine);
             Plugin.Instance.Hints.StopHintUpdater();
 
             foreach (var player in Player.List)

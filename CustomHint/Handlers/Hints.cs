@@ -137,7 +137,7 @@ namespace CustomHint.Handlers
                         string processedText = ReplacePlaceholders(hint.Text, player, Round.ElapsedTime);
                         return processedText.Replace(hintIdPlaceholder, processedText);
                     },
-                    SyncSpeed = HintSyncSpeed.Fastest,
+                    SyncSpeed = GetSyncSpeed(),
                     FontSize = (int)hint.FontSize,
                     TargetX = hint.PositionX,
                     TargetY = hint.PositionY
@@ -180,6 +180,17 @@ namespace CustomHint.Handlers
             }
 
             playerDisplay.ClearHint();
+        }
+
+        private HintSyncSpeed GetSyncSpeed()
+        {
+            if (Enum.TryParse(Plugin.Instance.Config.SyncSpeed, true, out HintSyncSpeed syncSpeed))
+            {
+                return syncSpeed;
+            }
+
+            Log.Warn($"Invalid sync speed '{Plugin.Instance.Config.SyncSpeed}', using default: Fastest");
+            return HintSyncSpeed.Fastest;
         }
 
         private string ReplacePlaceholders(string message, Player player, TimeSpan roundDuration)
