@@ -9,7 +9,6 @@ using CustomHint.API;
 using HintServiceMeow.Core.Models.Hints;
 using HintServiceMeow.Core.Utilities;
 using HintServiceMeow.Core.Enum;
-using PlayerRoles;
 
 namespace CustomHint.Handlers
 {
