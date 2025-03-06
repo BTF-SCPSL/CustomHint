@@ -1,11 +1,11 @@
 # CustomHint
 ## Описание
 Плагин позволяющий сделать свой собственный HUD для сервера.  
-Для нормальной работы плагина потребуется использовать **AdvancedHints** и **Newtonsoft.Json**, который есть в релизах на всех версиях.  
+Для нормальной работы плагина потребуется использовать **HintServiceMeow** и **Newtonsoft.Json**, который есть в релизах на всех версиях.  
 Для предложений, пожалуйста, пингуйте в Discord на сервере EXILED либо пишите в лс: @narin4ik  
 ## Обучение
 ### Как устанновить плагин?
-Переходим на [последний релиз.](https://github.com/BTF-SCPSL/CustomHint/releases) После чего скачиваем все *dll* файлы из релиза, после чего загружаем на сервер: *CustomHint.dll* и *AdvancedHints.dll* в папку Plugins (`.../EXILED/Plugins`), а *Newtonsoft.Json.dll* в папку dependencies (`.../EXILED/Plugins/dependencies`).  
+Переходим на [последний релиз.](https://github.com/BTF-SCPSL/CustomHint/releases) После чего скачиваем все *dll* файлы из релиза, после чего загружаем на сервер: *CustomHint.dll* и *HintServiceMeow.dll* в папку Plugins (`.../EXILED/Plugins`), а *Newtonsoft.Json.dll* в папку dependencies (`.../EXILED/Plugins/dependencies`).  
 После установки *запускаем/перезапускаем* сервер.  
 Как только Вы сделали все манипуляции, в `.../EXILED/Configs` в файлах `[port]-config.yml` и `[port]-translation.yml` сгенерируется конфигурация.
 ### Настройка плагина
@@ -21,11 +21,7 @@ custom_hint:
   enable_hud_commands: true
   # Enable or disable automatic plugin updates.
   auto_updater: true
-  # Enable or disable game hints.
-  game_hint: true
-  # Enable or disable hints for spectators.
-  hint_for_spectators_is_enabled: true
-  # The interval for changing spectator hints (in seconds).
+  # The interval for changing {hints} placeholder (in seconds).
   hint_message_time: 5
   # Default role name for players without a role.
   default_role_name: 'Player'
@@ -35,62 +31,23 @@ custom_hint:
   server_time_zone: 'UTC'
   # Enable counting Overwatch players in placeholder {spectators_num}.
   enable_overwatch_counting: true
-  # Ignored roles.
-  excluded_roles:
-  - Overwatch
-  - Filmmaker
-  - Scp079
+  # List of hints.
+  hints:
+  - id: 'firsthint'
+    text: 'Hello World!'
+    font_size: 15
+    position_x: 500
+    position_y: 500
+    can_be_hidden: true
+    roles:
+    - ClassD
 ```
 После того как настроили `[port]-config.yml`, переходим в `[port]-translation.yml`, снова используем комбинацию *CTRL+F* и вписываем `custom_hint`.  
 Там увидим следующее:
 ```yaml
 custom_hint:
-# Hint message for spectators.
-  hint_message_for_spectators: |-
-    <size=75%>{servername}
-    {ip}:{port}
-
-    {player_nickname}, spec, duration: {round_duration_hours}:{round_duration_minutes}:{round_duration_seconds}.
-    Role: {player_role}
-    TPS: {tps}/60
-
-    Information:
-    Class-D personnel: {classd_num} || Scientists: {scientist_num} || Facility Guards: {facilityguard_num} || MTF: {mtf_num} || CI: {ci_num} || SCPs: {scp_num} || Spectators: {spectators_num}
-    Generators activated: {generators_activated}/{generators_max}
-
-    {hints}</size>
-  # Hint message for rounds lasting up to 59 seconds.
-  hint_message_under_minute: |-
-    <size=75%>{servername}
-    {ip}:{port}
-
-    Quick start! {player_nickname}, round time: {round_duration_seconds}s.
-    Game Role: {player_gamerole} || Server Role: {player_role}
-    TPS: {tps}/60</size>
-
-    Real time: {current_time}
-  # Hint message for rounds lasting from 1 to 59 min & 59 sec
-  hint_message_under_hour: |-
-    <size=75%>{servername}
-    {ip}:{port}
-
-    Still going, {player_nickname}! Time: {round_duration_minutes}:{round_duration_seconds}.
-    Game Role: {player_gamerole} || Server Role: {player_role}
-    TPS: {tps}/60</size>
-
-    Real time: {current_time}
-  # Hint message for rounds lasting 1 hour or more.
-  hint_message_over_hour: |-
-    <size=75%>{servername}
-    {ip}:{port}
-
-    Long run, {player_nickname}! Duration: {round_duration_hours}:{round_duration_minutes}:{round_duration_seconds}.
-    Game Role: {player_gamerole} || Server Role: {player_role}
-    TPS: {tps}/60</size>
-
-    Real time: {current_time}
-  # Message displayed when the HUD is successfully hidden.
-  hide_hud_success_message: '<color=green>You have successfully hidden the server HUD! To get the HUD back, use .showhud</color>'
+# Message displayed when the HUD is successfully hidden.
+  hide_hud_success_message: '<color=green>You have successfully hidden the server HUD! To get the HUD back, use .showhud.</color>'
   # Message displayed when HUD is already hidden.
   hide_hud_already_hidden_message: '<color=red>You''ve already hidden the server HUD.</color>'
   # Message displayed when HUD is successfully shown.
@@ -101,6 +58,11 @@ custom_hint:
   dnt_enabled_message: '<color=red>Disable DNT (Do Not Track) mode.</color>'
   # Message displayed when commands are disabled on the server.
   command_disabled_message: '<color=red>This command is disabled on the server.</color>'
+  # Round time.
+  round_time_formats:
+    seconds: '{round_duration_seconds} seconds'
+    minutes: '{round_duration_minutes} minutes {round_duration_seconds} seconds'
+    hours: '{round_duration_hours} hours {round_duration_minutes} minutes {round_duration_seconds} seconds'
   # Game Role of a player, {player_gamerole} is placeholder.
   game_roles:
   - role: Tutorial
@@ -158,6 +120,7 @@ custom_hint:
 | {player_nickname} | Никнейм игрока.                         |
 | {player_role}     | Роль игрока.                            |
 | {player_gamerole}       | Игровая роль игрока.                |
+| {round_time}| Общая продолжительность раунда.                 |
 | {round_duration_seconds} | Длительность раунда в секундах.    |
 | {round_duration_minutes} | Длительность раунда в минутах.    |
 | {round_duration_hours}   | Длительность раунда в часах.      |
