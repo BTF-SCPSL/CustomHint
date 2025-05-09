@@ -3,6 +3,7 @@
 <div align="center">
 
 ![Downloads](https://img.shields.io/github/downloads/BTF-SCPSL/CustomHint/total?label=Downloads&style=flat-square&logo=github)
+![UsedOn](https://btf-scpsl.github.io/CustomHintStatsSite)
 ![Version](https://img.shields.io/github/v/release/BTF-SCPSL/CustomHint?label=Version&style=flat-square&logo=github)
 ![License](https://img.shields.io/github/license/BTF-SCPSL/CustomHint?label=License&style=flat-square&logo=github)
 ![Contributors](https://img.shields.io/github/contributors/BTF-SCPSL/CustomHint?label=Contributors&style=flat-square&logo=github)
