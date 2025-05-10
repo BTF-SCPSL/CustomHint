@@ -115,7 +115,8 @@ custom_hint:
   - role: Scp3114
     name: 'SCP-3114'
 ```
-And after localization... Voilà! Everything is ready! You can restart the server *(fully)*, and CustomHint will work perfectly.  
+Regarding **SSMenuSystem**, to remove the example settings, find `ss_menu_system` in the configuration and set the `enable_examples` value to `false`.   
+And after all that... Voilà! Everything is ready! You can restart the server *(fully)*, and CustomHint will work perfectly.  
 Thank you to everyone who uses this plugin. Best of luck!  
 
 ## Placeholders
