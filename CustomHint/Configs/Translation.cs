@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Exiled.API.Interfaces;
 using PlayerRoles;
@@ -7,23 +7,20 @@ namespace CustomHint.Configs
 {
     public class Translation : ITranslation
     {
-        [Description("Message displayed when the HUD is successfully hidden.")]
-        public string HideHudSuccessMessage { get; set; } = "<color=green>You have successfully hidden the server HUD! To get the HUD back, use .showhud.</color>";
+        [Description("Settings header text.")]
+        public string HeaderText { get; set; } = "CustomHint";
 
-        [Description("Message displayed when HUD is already hidden.")]
-        public string HideHudAlreadyHiddenMessage { get; set; } = "<color=red>You've already hidden the server HUD.</color>";
+        [Description("Name of the item in the settings.")]
+        public string ButtonName { get; set; } = "Server HUD display";
 
-        [Description("Message displayed when HUD is successfully shown.")]
-        public string ShowHudSuccessMessage { get; set; } = "<color=green>You have successfully returned the server HUD! To hide again, use .hidehud</color>";
+        [Description("Buttom hint.")]
+        public string ButtonHint { get; set; } = "Enable or disable server HUD display.";
 
-        [Description("Message displayed when HUD is already shown.")]
-        public string ShowHudAlreadyShownMessage { get; set; } = "<color=red>You already have the server HUD displayed.</color>";
+        [Description("Enable button.")]
+        public string ButtonEnable { get; set; } = "Enable";
 
-        [Description("Message displayed when DNT (Do Not Track) mode is enabled.")]
-        public string DntEnabledMessage { get; set; } = "<color=red>Disable DNT (Do Not Track) mode.</color>";
-
-        [Description("Message displayed when commands are disabled on the server.")]
-        public string CommandDisabledMessage { get; set; } = "<color=red>This command is disabled on the server.</color>";
+        [Description("Disable button.")]
+        public string ButtonDisable { get; set; } = "Disable";
 
         [Description("Round time.")]
         public Dictionary<string, string> RoundTimeFormats { get; set; } = new()
@@ -56,7 +53,8 @@ namespace CustomHint.Configs
             new RoleName { Role = RoleTypeId.Scp096, Name = "SCP-096" },
             new RoleName { Role = RoleTypeId.Scp106, Name = "SCP-106" },
             new RoleName { Role = RoleTypeId.Scp173, Name = "SCP-173" },
-            new RoleName { Role = RoleTypeId.Scp939, Name = "SCP-939" }
+            new RoleName { Role = RoleTypeId.Scp939, Name = "SCP-939" },
+            new RoleName { Role = RoleTypeId.Scp3114, Name = "SCP-3114" }
         };
     }
 

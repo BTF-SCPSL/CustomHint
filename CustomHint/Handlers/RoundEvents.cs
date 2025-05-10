@@ -18,9 +18,7 @@ namespace CustomHint.Handlers
             Log.Debug("Waiting for players...");
             _isRoundActive = false;
 
-            Plugin.Instance.SaveHiddenHudPlayers();
-
-            Task.Run(() => Plugin.Instance.CheckForUpdates());
+            Task.Run(() => Plugin.Instance.autoUpdater.CheckForUpdates());
         }
 
         public void OnRoundStarted()
