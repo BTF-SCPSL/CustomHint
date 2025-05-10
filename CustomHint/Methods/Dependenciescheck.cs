@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Exiled.API.Features;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace CustomHint.Methods
 {
@@ -12,8 +12,7 @@ namespace CustomHint.Methods
     {
         private static readonly string[] RequiredDependenciesDlls =
         {
-            "Newtonsoft.Json.dll",
-            "YamlDotNet.dll"
+            "Newtonsoft.Json.dll"
         };
 
         private static readonly string[] RequiredPluginsDlls =
@@ -33,6 +32,17 @@ namespace CustomHint.Methods
                 Directory.CreateDirectory(depsPath);
 
                 bool missing = false;
+
+                foreach (string pluginDll in RequiredPluginsDlls)
+                {
+                    string fullPath = Path.Combine(Paths.Plugins, pluginDll);
+                    if (!File.Exists(fullPath))
+                    {
+                        Log.Warn($"Missing required plugin: {pluginDll}");
+                        missing = true;
+                    }
+                }
+
                 foreach (string dll in RequiredDependenciesDlls)
                 {
                     string fullPath = Path.Combine(depsPath, dll);
@@ -45,7 +55,7 @@ namespace CustomHint.Methods
 
                 if (!missing)
                 {
-                    Log.Debug("All required dependencies are present.");
+                    Log.Debug("All required plugins and dependencies are present.");
                     return;
                 }
 
@@ -58,17 +68,23 @@ namespace CustomHint.Methods
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync();
-                var json = JObject.Parse(content);
+                using var document = JsonDocument.Parse(content);
+                JsonElement root = document.RootElement;
 
-                var assets = json["assets"];
+                if (!root.TryGetProperty("assets", out var assets))
+                {
+                    Log.Error("Missing 'assets' in release metadata.");
+                    return;
+                }
                 string downloadUrl = null;
 
-                foreach (var asset in assets)
+                foreach (var asset in assets.EnumerateArray())
                 {
-                    string name = asset["name"]?.ToString();
-                    if (name != null && name.Equals("dependencies.zip", StringComparison.OrdinalIgnoreCase))
+                    if (asset.TryGetProperty("name", out var nameProp) &&
+                        nameProp.GetString()?.Equals("dependencies.zip", StringComparison.OrdinalIgnoreCase) == true &&
+                        asset.TryGetProperty("browser_download_url", out var urlProp))
                     {
-                        downloadUrl = asset["browser_download_url"]?.ToString();
+                        downloadUrl = urlProp.GetString();
                         break;
                     }
                 }
@@ -101,7 +117,6 @@ namespace CustomHint.Methods
 
                 Log.Info("Dependencies successfully downloaded and extracted. Restarting...");
                 Server.ExecuteCommand("sr");
-
             }
             catch (Exception ex)
             {
