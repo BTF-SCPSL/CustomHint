@@ -1,12 +1,10 @@
-using System;
-using System.Linq;
-using System.Globalization;
+﻿using System.Linq;
 using Exiled.API.Features;
 using PlayerRoles;
 
-namespace CustomHint.Handlers
+namespace CustomHint.Methods
 {
-    public static class Methods
+    public class Roles
     {
         public static string GameRole(Player player)
         {
@@ -14,27 +12,6 @@ namespace CustomHint.Handlers
                 .FirstOrDefault(r => r.Role == player.Role.Type);
 
             return role?.Name ?? player.Role.Type.ToString();
-        }
-
-        public static string GetCurrentTime(string timeZone)
-        {
-            try
-            {
-                TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZone);
-                DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tzInfo);
-
-                return localTime.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
-            }
-            catch (TimeZoneNotFoundException)
-            {
-                Log.Warn($"TimeZone '{timeZone}' not found. Falling back to UTC.");
-                return DateTime.UtcNow.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Error while getting current time: {ex}");
-                return "N/A";
-            }
         }
 
         public static RoleCounts CountRoles()
@@ -84,25 +61,6 @@ namespace CustomHint.Handlers
             }
 
             return counts;
-        }
-
-        public static string GetRoundTime(TimeSpan roundDuration)
-        {
-            var translationroundtime = Plugin.Instance.Translation.RoundTimeFormats;
-
-            if (roundDuration.TotalSeconds <= 60)
-                return translationroundtime["seconds"]
-                    .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"));
-
-            if (roundDuration.TotalMinutes < 60)
-                return translationroundtime["minutes"]
-                    .Replace("{round_duration_minutes}", roundDuration.Minutes.ToString("D2"))
-                    .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"));
-
-            return translationroundtime["hours"]
-                .Replace("{round_duration_hours}", roundDuration.Hours.ToString("D2"))
-                .Replace("{round_duration_minutes}", roundDuration.Minutes.ToString("D2"))
-                .Replace("{round_duration_seconds}", roundDuration.Seconds.ToString("D2"));
         }
 
         public struct RoleCounts

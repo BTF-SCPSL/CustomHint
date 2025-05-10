@@ -9,6 +9,9 @@ using CustomHint.API;
 using HintServiceMeow.Core.Models.Hints;
 using HintServiceMeow.Core.Utilities;
 using HintServiceMeow.Core.Enum;
+using CustomHint.Methods;
+using UserSettings.ServerSpecific;
+using SSMenuSystem.Features;
 
 namespace CustomHint.Handlers
 {
@@ -18,30 +21,31 @@ namespace CustomHint.Handlers
         private Queue<string> randomizedHints = new Queue<string>();
         private List<string> hints = new List<string>();
         private readonly Dictionary<Player, List<DynamicHint>> activeHints = new();
+        public string CurrentHint { get; private set; } = "Hint not available";
 
         public void LoadHints()
         {
-            string hintsFilePath = FileDotNet.GetPath("Hints.txt");
+            string hintsFilePath = FileDotNet.GetPath("Hints.yml");
 
             try
             {
                 if (File.Exists(hintsFilePath))
                 {
-                    hints = File.ReadAllLines(hintsFilePath)
-                        .Where(line => !line.TrimStart().StartsWith("#") && !string.IsNullOrWhiteSpace(line))
-                        .ToList();
+                    hints = (List<string>)FileDotNet.LoadFile<List<string>>(hintsFilePath, new List<string>());
 
-                    Log.Debug($"Loaded {hints.Count} hints from Hints.txt.");
+                    hints.RemoveAll(h => string.IsNullOrWhiteSpace(h) || h.TrimStart().StartsWith("#"));
+
+                    Log.Debug($"Loaded {hints.Count} hints from Hints.yml.");
                 }
                 else
                 {
-                    Log.Warn("Hints.txt not found. No hints loaded.");
+                    Log.Warn("Hints.yml not found. No hints loaded.");
                     hints = new List<string>();
                 }
             }
             catch (Exception ex)
             {
-                Log.Warn($"Failed to load Hints.txt: {ex}");
+                Log.Warn($"Failed to load Hints.yml: {ex}");
                 hints = new List<string>();
             }
         }
@@ -79,27 +83,27 @@ namespace CustomHint.Handlers
 
         public static readonly Dictionary<string, Func<Player, TimeSpan, string>> CorePlaceholders = new()
         {
-            { "{round_time}", (player, roundDuration) => Methods.GetRoundTime(roundDuration) },
+            { "{round_time}", (player, roundDuration) => Time.GetRoundTime(roundDuration) },
             { "{round_duration_hours}", (player, roundDuration) => roundDuration.Hours.ToString("D2") },
             { "{round_duration_minutes}", (player, roundDuration) => roundDuration.Minutes.ToString("D2") },
             { "{round_duration_seconds}", (player, roundDuration) => roundDuration.Seconds.ToString("D2") },
             { "{player_nickname}", (player, roundDuration) => player.Nickname },
             { "{player_role}", (player, roundDuration) => GetColoredRoleName(player) },
-            { "{player_gamerole}", (player, roundDuration) => Methods.GameRole(player) },
+            { "{player_gamerole}", (player, roundDuration) => Roles.GameRole(player) },
             { "{tps}", (player, roundDuration) => ((int)Server.Tps).ToString() },
             { "{servername}", (player, roundDuration) => Server.Name },
             { "{ip}", (player, roundDuration) => Server.IpAddress },
             { "{port}", (player, roundDuration) => Server.Port.ToString() },
-            { "{classd_num}", (player, roundDuration) => Methods.CountRoles().ClassD.ToString() },
-            { "{scientist_num}", (player, roundDuration) => Methods.CountRoles().Scientist.ToString() },
-            { "{facilityguard_num}", (player, roundDuration) => Methods.CountRoles().FacilityGuard.ToString() },
-            { "{mtf_num}", (player, roundDuration) => Methods.CountRoles().MTF.ToString() },
-            { "{ci_num}", (player, roundDuration) => Methods.CountRoles().ChaosInsurgency.ToString() },
-            { "{scp_num}", (player, roundDuration) => Methods.CountRoles().SCPs.ToString() },
-            { "{spectators_num}", (player, roundDuration) => Methods.CountRoles().Spectators.ToString() },
+            { "{classd_num}", (player, roundDuration) => Roles.CountRoles().ClassD.ToString() },
+            { "{scientist_num}", (player, roundDuration) => Roles.CountRoles().Scientist.ToString() },
+            { "{facilityguard_num}", (player, roundDuration) => Roles.CountRoles().FacilityGuard.ToString() },
+            { "{mtf_num}", (player, roundDuration) => Roles.CountRoles().MTF.ToString() },
+            { "{ci_num}", (player, roundDuration) => Roles.CountRoles().ChaosInsurgency.ToString() },
+            { "{scp_num}", (player, roundDuration) => Roles.CountRoles().SCPs.ToString() },
+            { "{spectators_num}", (player, roundDuration) => Roles.CountRoles().Spectators.ToString() },
             { "{generators_activated}", (player, roundDuration) => Scp079Recontainer.AllGenerators.Count(gen => gen.Engaged).ToString() },
             { "{generators_max}", (player, roundDuration) => Scp079Recontainer.AllGenerators.Count.ToString() },
-            { "{current_time}", (player, roundDuration) => Methods.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone) },
+            { "{current_time}", (player, roundDuration) => Time.GetCurrentTime(Plugin.Instance.Config.ServerTimeZone) },
             { "{hints}", (player, roundDuration) => Plugin.Instance.Hints.CurrentHint }
         };
 
@@ -128,8 +132,11 @@ namespace CustomHint.Handlers
                 {
                     AutoText = update =>
                     {
+                        var hub = player.ReferenceHub;
+                        var setting = hub.GetParameter<ServerHUDSettings, SSTwoButtonsSetting>(1);
+
                         if (!hint.Roles.Contains(player.Role.Type) ||
-                            (Plugin.Instance.HiddenHudPlayers.Contains(player.UserId) && hint.CanBeHidden))
+                            (setting?.SyncIsB == true && hint.CanBeHidden))
                         {
                             return "";
                         }
@@ -227,7 +234,5 @@ namespace CustomHint.Handlers
                 ? $"<color={player.Group.BadgeColor ?? Plugin.Instance.Config.DefaultRoleColor}>{player.Group.BadgeText}</color>"
                 : $"<color={Plugin.Instance.Config.DefaultRoleColor}>{Plugin.Instance.Config.DefaultRoleName}</color>";
         }
-
-        public string CurrentHint { get; private set; } = "Hint not available";
     }
 }

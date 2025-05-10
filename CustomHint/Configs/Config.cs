@@ -13,8 +13,11 @@ namespace CustomHint.Configs
         [Description("Debug mode?")]
         public bool Debug { get; set; } = false;
 
-        [Description("Enable or disable HUD-related commands.")]
-        public bool EnableHudCommands { get; set; } = true;
+        [Description("Provide data for plugin statistics (data will not be shared with third parties).")]
+        public bool SendAnonInfo { get; set; } = true;
+
+        [Description("Enable or disable the HUD settings in the game menu.")]
+        public bool HudSettings { get; set; } = true;
 
         [Description("Enable or disable automatic plugin updates.")]
         public bool AutoUpdater { get; set; } = true;

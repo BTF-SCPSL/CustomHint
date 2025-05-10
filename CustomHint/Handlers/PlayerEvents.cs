@@ -1,25 +1,20 @@
+﻿using System.Collections.Generic;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
+using SSMenuSystem.Features;
+using UserSettings.ServerSpecific;
 
 namespace CustomHint.Handlers
 {
     public class PlayerEvents
     {
+        private readonly Dictionary<string, bool> _playerHudState = new();
+
         public void OnPlayerVerified(VerifiedEventArgs ev)
         {
             Player player = ev.Player;
-
-            if (player.DoNotTrack)
-            {
-                if (!Plugin.Instance.HiddenHudPlayers.Remove(player.UserId))
-                    return;
-
-                Plugin.Instance.SaveHiddenHudPlayers();
-                Log.Debug($"Player {player.Nickname} ({player.UserId}) has DNT enabled and was removed from HiddenHudPlayers.");
-            }
-
-            Plugin.Instance.Hints.AssignHints(ev.Player);
+            Plugin.Instance.Hints.AssignHints(player);
         }
 
         public void OnPlayerSpawned(SpawnedEventArgs ev)
@@ -55,5 +50,34 @@ namespace CustomHint.Handlers
             });
         }
 
+        public void OnUpdate()
+        {
+            foreach (var player in Player.List)
+            {
+                if (!player.IsVerified)
+                    continue;
+
+                var setting = player.ReferenceHub.GetParameter<ServerHUDSettings, SSTwoButtonsSetting>(1);
+                if (setting == null) continue;
+
+                bool isHudEnabled = setting.SyncIsA;
+
+                if (!_playerHudState.TryGetValue(player.UserId, out bool lastState) || lastState != isHudEnabled)
+                {
+                    _playerHudState[player.UserId] = isHudEnabled;
+                    Log.Debug($"{player.Nickname} changed HUD: {(isHudEnabled ? "ENABLE" : "DISABLE")}");
+
+                    if (isHudEnabled)
+                    {
+                        Plugin.Instance.Hints.RemoveHints(player);
+                        Plugin.Instance.Hints.AssignHints(player);
+                    }
+                    else
+                    {
+                        Plugin.Instance.Hints.RemoveHints(player);
+                    }
+                }
+            }
+        }
     }
 }
