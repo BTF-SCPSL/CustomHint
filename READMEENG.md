@@ -145,6 +145,7 @@ Thank you to everyone who uses this plugin. Best of luck!
 | {hints}                 | Hints from the Hints.txt file.             |
 
 ## Third-party placeholders
+If you want to add your own plugin for adding placeholders, please contact me via DM: *@narin4ik*
 | Author            | Name            | Description                                 |
 | ----------------------- | ----------------------- | ------------------------------------------ |
 | [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays STEAMID64.                               |
