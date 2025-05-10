@@ -141,6 +141,7 @@ custom_hint:
 | {hints}           | Hints із файлу Hints.txt.           |
 
 ## Сторонні placeholders  
+Якщо ви хочете додати свій плагін для додавання placeholders, зверніться в особисті повідомлення: *@narin4ik*
 | Автор            | Назва               | Опис                                     |  
 | ----------------- | ------------------- | ---------------------------------------- |  
 | [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder) | Відображає STEAMID64 у вигляді плейсхолдера.                                 |  
