@@ -1,11 +1,11 @@
 # CustomHint
 ## Описание
 Плагин позволяющий сделать свой собственный HUD для сервера.  
-Для нормальной работы плагина потребуется использовать **HintServiceMeow** и **Newtonsoft.Json**, который есть в релизах на всех версиях.  
+Для нормальной работы плагина потребуется использовать **HintServiceMeow**, **SSMenuSystem** **Newtonsoft.Json**, который есть в релизах на всех версиях.  
 Для предложений, пожалуйста, пингуйте в Discord на сервере EXILED либо пишите в лс: @narin4ik  
 ## Обучение
 ### Как устанновить плагин?
-Переходим на [последний релиз.](https://github.com/BTF-SCPSL/CustomHint/releases) После чего скачиваем все *dll* файлы из релиза, после чего загружаем на сервер: *CustomHint.dll* и *HintServiceMeow.dll* в папку Plugins (`.../EXILED/Plugins`), а *Newtonsoft.Json.dll* в папку dependencies (`.../EXILED/Plugins/dependencies`).  
+Переходим на [последний релиз.](https://github.com/BTF-SCPSL/CustomHint/releases) После чего скачиваем все *dll* и *zip* файлы из релиза, после чего загружаем на сервер: *CustomHint.dll* и *dependencies.zip* в папку Plugins (`.../EXILED/Plugins`), после чего распаковываем *dependencies.zip*.  
 После установки *запускаем/перезапускаем* сервер.  
 Как только Вы сделали все манипуляции, в `.../EXILED/Configs` в файлах `[port]-config.yml` и `[port]-translation.yml` сгенерируется конфигурация.
 ### Настройка плагина
