@@ -20,8 +20,10 @@ custom_hint:
   is_enabled: true
   # Debug mode?
   debug: false
-  # Enable or disable HUD-related commands.
-  enable_hud_commands: true
+  # Provide data for plugin statistics (data will not be shared with third parties).
+  send_anon_info: true
+  # Enable or disable the HUD settings in the game menu.
+  hud_settings: true
   # Enable or disable automatic plugin updates.
   auto_updater: true
   # The interval for changing {hints} placeholder (in seconds).
@@ -34,6 +36,8 @@ custom_hint:
   server_time_zone: 'UTC'
   # Enable counting Overwatch players in placeholder {spectators_num}.
   enable_overwatch_counting: true
+  # Sync speed for hints. Available values: UnSync, Slowest, Slow, Normal, Fast, Fastest.
+  sync_speed: 'Fastest'
   # List of hints.
   hints:
   - id: 'firsthint'
@@ -49,18 +53,16 @@ After configuring `[port]-config.yml`, move on to `[port]-translation.yml`. Use 
 You'll find the following:
 ```yaml
 custom_hint:
-# Message displayed when the HUD is successfully hidden.
-  hide_hud_success_message: '<color=green>You have successfully hidden the server HUD! To get the HUD back, use .showhud.</color>'
-  # Message displayed when HUD is already hidden.
-  hide_hud_already_hidden_message: '<color=red>You''ve already hidden the server HUD.</color>'
-  # Message displayed when HUD is successfully shown.
-  show_hud_success_message: '<color=green>You have successfully returned the server HUD! To hide again, use .hidehud</color>'
-  # Message displayed when HUD is already shown.
-  show_hud_already_shown_message: '<color=red>You already have the server HUD displayed.</color>'
-  # Message displayed when DNT (Do Not Track) mode is enabled.
-  dnt_enabled_message: '<color=red>Disable DNT (Do Not Track) mode.</color>'
-  # Message displayed when commands are disabled on the server.
-  command_disabled_message: '<color=red>This command is disabled on the server.</color>'
+# Settings header text.
+  header_text: 'CustomHint'
+  # Name of the item in the settings.
+  button_name: 'Server HUD display'
+  # Buttom hint.
+  button_hint: 'Enable or disable server HUD display.'
+  # Enable button.
+  button_enable: 'Enable'
+  # Disable button.
+  button_disable: 'Disable'
   # Round time.
   round_time_formats:
     seconds: '{round_duration_seconds} seconds'
@@ -110,6 +112,8 @@ custom_hint:
     name: 'SCP-173'
   - role: Scp939
     name: 'SCP-939'
+  - role: Scp3114
+    name: 'SCP-3114'
 ```
 And after localization... Voilà! Everything is ready! You can restart the server *(fully)*, and CustomHint will work perfectly.  
 Thank you to everyone who uses this plugin. Best of luck!  
