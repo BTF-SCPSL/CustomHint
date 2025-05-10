@@ -1,13 +1,13 @@
 # CustomHint
 ## Description
 A plugin that allows you to create your own custom HUD for the server.  
-To ensure proper functionality, the plugin requires **HintServiceMeow** and **Newtonsoft.Json**, which are included in the releases for all versions.  
+To ensure proper functionality, the plugin requires **HintServiceMeow**, **SSMenuSystem** and **Newtonsoft.Json**, which are included in the releases for all versions.  
 For suggestions, please ping me on the EXILED Discord server or DM: @narin4ik.  
 
 ## Guide
 
 ### How to install the plugin?
-Go to the [latest release](https://github.com/BTF-SCPSL/CustomHint/releases). Download all the *dll* files from the release. Then upload the following files to the server: *CustomHint.dll* and *HintServiceMeow.dll* to the Plugins folder (`.../EXILED/Plugins`), and *Newtonsoft.Json.dll* to the dependencies folder (`.../EXILED/Plugins/dependencies`).  
+Go to the [latest release](https://github.com/BTF-SCPSL/CustomHint/releases). After that, download all the *dll* and *zip* files from the release, then upload *CustomHint.dll* and *dependencies.zip* to the server into the Plugins folder (`.../EXILED/Plugins`), and then extract *dependencies.zip*.   
 After installation, *start/restart* the server.  
 Once you've completed all the steps, the configuration will be generated in `.../EXILED/Configs` under `[port]-config.yml` and `[port]-translation.yml`.
 
