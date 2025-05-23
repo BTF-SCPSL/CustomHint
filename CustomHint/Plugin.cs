@@ -5,7 +5,6 @@ using CustomHint.Configs;
 using CustomHint.Methods;
 using CustomHint.Handlers;
 using Exiled.API.Features;
-using System.Threading.Tasks;
 using SSMenuSystem.Features;
 
 namespace CustomHint
@@ -18,8 +17,6 @@ namespace CustomHint
         public HintsSystem Hints { get; private set; }
         public AutoUpdater autoUpdater { get; private set; }
         public FilesGenerator filesGenerator { get; private set; }
-
-        Statistic stat = new Statistic();
 
         public override string Name => "CustomHint";
         public override string Author => "Narin & BTF Team";
