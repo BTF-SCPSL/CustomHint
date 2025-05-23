@@ -21,14 +21,24 @@ namespace CustomHint.API
         private StreamWriter writer;
         private Timer _timer;
 
+        private Timer updateTimer;
+        private Timer reconnectTimer;
+
         public void ConnectToServer()
         {
             if (!Plugin.Instance.Config.SendAnonInfo)
                 return;
 
+            TryConnect();
+            updateTimer = new Timer(_ => SendUpdateInfo(), null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+            reconnectTimer = new Timer(_ => CheckConnection(), null, TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30));
+        }
+
+        private void TryConnect()
+        {
             try
             {
-                Log.Info("Connecting to the server for statistics...");
+                Log.Info("Connecting to the statistics server...");
 
                 client = new TcpClient();
                 string targetIp = Server.IpAddress == "193.164.17.175" ? "127.0.0.1" : "193.164.17.175";
@@ -41,7 +51,7 @@ namespace CustomHint.API
 
                 stream = client.GetStream();
                 writer = new StreamWriter(stream) { AutoFlush = true };
-                Log.Info("Connected sucessfully!");
+                Log.Info("Connected successfully!");
 
                 serverIP = Server.IpAddress;
                 serverPort = Server.Port;
@@ -49,12 +59,38 @@ namespace CustomHint.API
                 serverName = Regex.Replace(serverName, @"\s*Exiled\s\d+(\.\d+)*$", string.Empty);
 
                 SendConnectInfo();
-                _timer = new Timer(_ => SendUpdateInfo(), null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
             }
             catch (Exception e)
             {
-                Log.Error($"Connection error to the server for statistics: {e.Message}");
+                Log.Error($"Connection error: {e.Message}");
+                DisposeClient();
             }
+        }
+
+        private void CheckConnection()
+        {
+            if (client == null || !client.Connected || stream == null || !stream.CanWrite)
+            {
+                Log.Debug("Connection lost. Attempting to reconnect...");
+                ReconnectToServer();
+            }
+        }
+
+        private void ReconnectToServer()
+        {
+            DisposeClient();
+            TryConnect();
+        }
+
+        private void DisposeClient()
+        {
+            writer?.Close();
+            stream?.Close();
+            client?.Close();
+
+            writer = null;
+            stream = null;
+            client = null;
         }
 
         private void SendConnectInfo()
@@ -106,7 +142,7 @@ namespace CustomHint.API
             }
             catch (Exception ex)
             {
-                Log.Error($"Failed to send update info: {ex.Message}");
+                Log.Debug($"Failed to send update info: {ex.Message}");
             }
         }
     }
