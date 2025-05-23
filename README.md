@@ -37,4 +37,10 @@ Localized READMEs
     <br>
     <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEUA.md">Українська</a>
   </div>
+  <br>
+  <div>
+    <img src="https://flagsapi.com/CN/flat/64.png" height=30>
+    <br>
+    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMECN.md">中文（简体）</a>
+  </div>
 </div>
