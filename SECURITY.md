@@ -16,7 +16,7 @@ If you discover a security vulnerability that may allow:
 - bypassing plugin restrictions,
 - exploiting unintended mechanics for unfair advantage,
 - leaking sensitive player/server data,
-- crashing the server or escalating privileges —
+- crashing the server or escalating privileges
 
 **Please do not open a public issue.**
 
