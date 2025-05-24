@@ -140,7 +140,7 @@ custom_hint:
 | `{generators_activated}`   | 已激活发电机数量             |
 | `{generators_max}`         | 发电机总数量               |
 | `{current_time}`           | 您时区的当前实时时间           |
-| `{hints}`                  | 来自 Hints.txt 文件的提示文本 |
+| `{hints}`                  | 来自 Hints.yml 文件的提示文本 |
 ## 第三方占位符
 如果您希望添加自己的插件以提供占位符，请私信联系：*@narin4ik*
 | 作者                                    | 名称                                                                   | 描述                  |
