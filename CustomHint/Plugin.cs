@@ -5,7 +5,6 @@ using CustomHint.Configs;
 using CustomHint.Methods;
 using CustomHint.Handlers;
 using Exiled.API.Features;
-using System.Threading.Tasks;
 using SSMenuSystem.Features;
 
 namespace CustomHint
@@ -19,18 +18,16 @@ namespace CustomHint
         public AutoUpdater autoUpdater { get; private set; }
         public FilesGenerator filesGenerator { get; private set; }
 
-        Statistic stat = new Statistic();
-
         public override string Name => "CustomHint";
         public override string Author => "Narin & BTF Team";
-        public override Version Version => new Version(1, 6, 0);
+        public override Version Version => new Version(1, 6, 1);
         public override Version RequiredExiledVersion => new Version(9, 6, 0);
 
         public override void OnEnabled()
         {
             Instance = this;
 
-            Task.Run(() => DependenciesCheck.CheckAndDownloadDependencies());
+            DependenciesCheck.CheckAndDownloadDependencies().GetAwaiter().GetResult();
 
             autoUpdater = new AutoUpdater();
 
