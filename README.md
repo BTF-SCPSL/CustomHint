@@ -1,5 +1,5 @@
 <h1 align="center">CustomHint</h1>
-<h6 align="center">A plugin that allows you to create your own custom HUD for the server.</h6>
+<h6 align="center">A plugin that enables you to create your own custom HUD with extensive customization options.</h6>
 <div align="center">
 
 ![Downloads](https://img.shields.io/github/downloads/BTF-SCPSL/CustomHint/total?label=Downloads&style=flat-square&logo=github)
