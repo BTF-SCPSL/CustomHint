@@ -74,9 +74,9 @@
     <Reference Include="Google.Protobuf, Version=3.30.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.30.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
-    <Reference Include="HintServiceMeow-Exiled, Version=5.3.12.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="HintServiceMeow-Exiled, Version=5.4.1.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Documents\HintServiceMeow-Exiled.dll</HintPath>
+      <HintPath>..\..\..\..\Downloads\HintServiceMeow-Exiled.dll</HintPath>
     </Reference>
     <Reference Include="K4os.Compression.LZ4, Version=1.3.8.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Compression.LZ4.1.3.8\lib\net462\K4os.Compression.LZ4.dll</HintPath>

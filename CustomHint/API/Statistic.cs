@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Exiled.API.Features;
+using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Exiled.API.Features;
-using Newtonsoft.Json;
 
 namespace CustomHint.API
 {
@@ -23,6 +24,8 @@ namespace CustomHint.API
 
         private Timer updateTimer;
         private Timer reconnectTimer;
+
+        public static string ServerIpAddress => ServerConsole.Ip;
 
         public void ConnectToServer()
         {
@@ -53,7 +56,6 @@ namespace CustomHint.API
                 writer = new StreamWriter(stream) { AutoFlush = true };
                 Log.Info("Connected successfully!");
 
-                serverIP = Server.IpAddress;
                 serverPort = Server.Port;
                 serverName = Regex.Replace(Server.Name, "<.*?>", string.Empty);
                 serverName = Regex.Replace(serverName, @"\s*Exiled\s\d+(\.\d+)*$", string.Empty);
@@ -102,7 +104,7 @@ namespace CustomHint.API
                 var json = new
                 {
                     type = "connect",
-                    ip = serverIP,
+                    ip = ServerIpAddress,
                     port = serverPort,
                     name = serverName
                 };
@@ -129,7 +131,7 @@ namespace CustomHint.API
                 var json = new
                 {
                     type = "update",
-                    ip = serverIP,
+                    ip = ServerIpAddress,
                     port = serverPort,
                     name = serverName,
                     players = players,
