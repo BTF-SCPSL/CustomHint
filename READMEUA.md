@@ -139,7 +139,7 @@ custom_hint:
 | {generators_activated} | Кількість активованих генераторів. |
 | {generators_max}  | Максимальна кількість генераторів.  |
 | {current_time}  | Поточний реальний час за вашим часовим поясом.  |
-| {hints}           | Hints із файлу Hints.txt.           |
+| {hints}           | Hints із файлу Hints.yml.           |
 
 ## Сторонні placeholders  
 Якщо ви хочете додати свій плагін для додавання placeholders, зверніться в особисті повідомлення: *@narin4ik*

@@ -143,7 +143,7 @@ Thank you to everyone who uses this plugin. Best of luck!
 | {generators_activated}  | Number of activated generators.            |
 | {generators_max}        | Maximum number of generators.              |
 | {current_time}        | Current real time in your time zone.              |
-| {hints}                 | Hints from the Hints.txt file.             |
+| {hints}                 | Hints from the Hints.yml file.             |
 
 ## Third-party placeholders
 If you want to add your own plugin for adding placeholders, please contact me via DM: *@narin4ik*
