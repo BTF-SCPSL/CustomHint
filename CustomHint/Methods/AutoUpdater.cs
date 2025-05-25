@@ -158,7 +158,7 @@ namespace CustomHint.Methods
                                 foreach (var entry in archive.Entries)
                                 {
                                     string destinationPath = Path.Combine(dependenciesPath, entry.FullName);
-                                    string? directory = Path.GetDirectoryName(destinationPath);
+                                    string directory = Path.GetDirectoryName(destinationPath);
                                     if (!string.IsNullOrEmpty(directory))
                                         Directory.CreateDirectory(directory);
 
