@@ -5,7 +5,7 @@ using UserSettings.ServerSpecific;
 public class ServerHUDSettings : Menu
 {
     public override string Name { get; set; } = Plugin.Instance.Translation.HeaderText;
-    public override int Id { get; set; } = -20;
+    public override int Id { get; set; } = Plugin.Instance.Config.SettingsId;
 
     public override ServerSpecificSettingBase[] Settings => new ServerSpecificSettingBase[]
     {
