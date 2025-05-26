@@ -20,7 +20,10 @@ namespace CustomHint.Configs
         public bool HudSettings { get; set; } = true;
 
         [Description("Menu Id in Server Specific Settings.")]
-        public int SettingsId { get; set; } = -77;
+        public int SettingsMenuId { get; set; } = -77;
+
+        [Description("Setting Id in Menu.")]
+        public int SettingId { get; set; } = 77;
 
         [Description("Enable or disable automatic plugin updates.")]
         public bool AutoUpdater { get; set; } = true;
