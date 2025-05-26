@@ -20,7 +20,7 @@ namespace CustomHint
 
         public override string Name => "CustomHint";
         public override string Author => "Narin & BTF Team";
-        public override Version Version => new Version(1, 6, 2);
+        public override Version Version => new Version(1, 6, 3);
         public override Version RequiredExiledVersion => new Version(9, 6, 0);
 
         public override void OnEnabled()
