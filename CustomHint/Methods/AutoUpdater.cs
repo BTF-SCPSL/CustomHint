@@ -185,7 +185,7 @@ namespace CustomHint.Methods
                         }
                     }
 
-                    Server.ExecuteCommand("rnr");
+                    ServerStatic.StopNextRound = ServerStatic.NextRoundAction.Restart;
                     Log.Info("The plugin has been successfully updated! Changes are applied at the end of the round.");
                 }
             }
