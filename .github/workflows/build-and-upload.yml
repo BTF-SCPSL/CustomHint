@@ -8,45 +8,37 @@ on:
   workflow_dispatch:
 
 env:
-  PLUGIN_NAME: MySCPPlugin
-  OUTPUT_PATH: bin/Release/netstandard2.0
+  PLUGIN_NAME: CustomHint
+  BUILD_CONFIG: Release
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0.x'  # Или нужная версия
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
 
-    - name: Restore Dependencies
-      run: dotnet restore
+    - name: Restore NuGet packages
+      run: nuget restore MySCPPlugin.sln
 
-    - name: Build Plugin
-      run: dotnet build --configuration Release
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
 
-    - name: Create ZIP Archive
+    - name: Build Plugin with MSBuild
+      run: msbuild MySCPPlugin.sln /p:Configuration=${{ env.BUILD_CONFIG }}
+
+    - name: Archive Build Output
       run: |
-        mkdir -p build_output
-        cp -r ${{ env.OUTPUT_PATH }}/*.dll build_output/
-        zip -r ${{ env.PLUGIN_NAME }}.zip build_output
+        mkdir package
+        copy .\CustomHint\${{ env.BUILD_CONFIG }}\*.dll .\package\
+        Compress-Archive -Path .\package\* -DestinationPath ${{ env.PLUGIN_NAME }}.zip
 
-    - name: Upload Artifact
+    - name: Upload Build Artifact
       uses: actions/upload-artifact@v3
       with:
         name: ${{ env.PLUGIN_NAME }}-artifact
         path: ${{ env.PLUGIN_NAME }}.zip
-
-    # OPTIONAL: Create a release and attach the zip
-    - name: Create GitHub Release
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{ env.PLUGIN_NAME }}.zip
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
