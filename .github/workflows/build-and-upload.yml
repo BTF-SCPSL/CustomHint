@@ -1,0 +1,52 @@
+name: Build and Upload Plugin
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PLUGIN_NAME: MySCPPlugin
+  OUTPUT_PATH: bin/Release/netstandard2.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x'  # Или нужная версия
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build Plugin
+      run: dotnet build --configuration Release
+
+    - name: Create ZIP Archive
+      run: |
+        mkdir -p build_output
+        cp -r ${{ env.OUTPUT_PATH }}/*.dll build_output/
+        zip -r ${{ env.PLUGIN_NAME }}.zip build_output
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.PLUGIN_NAME }}-artifact
+        path: ${{ env.PLUGIN_NAME }}.zip
+
+    # OPTIONAL: Create a release and attach the zip
+    - name: Create GitHub Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ env.PLUGIN_NAME }}.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
