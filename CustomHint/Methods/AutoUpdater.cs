@@ -136,7 +136,7 @@ namespace CustomHint.Methods
                     string pluginsPath = Path.Combine(Paths.Plugins, "CustomHint", "Auto Updater");
                     Directory.CreateDirectory(pluginsPath);
 
-                    string dependenciesPath = Path.Combine(Paths.Plugins, "dependencies");
+                    string dependenciesPath = Path.Combine(Paths.Plugins);
                     Directory.CreateDirectory(dependenciesPath);
 
                     foreach (var asset in assets)

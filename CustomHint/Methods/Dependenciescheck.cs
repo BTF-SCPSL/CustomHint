@@ -15,11 +15,6 @@ namespace CustomHint.Methods
             "Newtonsoft.Json.dll"
         };
 
-        private static readonly string[] RequiredPluginsDlls =
-        {
-            "HintServiceMeow.dll",
-            "SSMenuSystem.dll"
-        };
 
         private const string UserAgent = "CustomHint-DependencyChecker";
         private const string GitHubApiUrl = "https://api.github.com/repos/BTF-SCPSL/CustomHint/releases/latest";
@@ -33,14 +28,13 @@ namespace CustomHint.Methods
 
                 bool missing = false;
 
-                foreach (string pluginDll in RequiredPluginsDlls)
+                bool hasHintServiceMeow = File.Exists(Path.Combine(Paths.Plugins, "HintServiceMeow.dll")) ||
+                                          File.Exists(Path.Combine(Paths.Plugins, "HintServiceMeow-Exiled.dll"));
+
+                if (!hasHintServiceMeow)
                 {
-                    string fullPath = Path.Combine(Paths.Plugins, pluginDll);
-                    if (!File.Exists(fullPath))
-                    {
-                        Log.Warn($"Missing required plugin: {pluginDll}");
-                        missing = true;
-                    }
+                    Log.Warn("Missing required plugin: HintServiceMeow.dll or HintServiceMeow-Exiled.dll");
+                    missing = true;
                 }
 
                 foreach (string dll in RequiredDependenciesDlls)
@@ -104,6 +98,23 @@ namespace CustomHint.Methods
                     foreach (var entry in archive.Entries)
                     {
                         string filePath = Path.Combine(depsPath, entry.FullName);
+
+                        if (entry.FullName.Equals("HintServiceMeow.dll", StringComparison.OrdinalIgnoreCase))
+                        {
+                            string exiledVersionPath = Path.Combine(Paths.Plugins, "HintServiceMeow-Exiled.dll");
+                            if (File.Exists(exiledVersionPath))
+                            {
+                                try
+                                {
+                                    File.Delete(exiledVersionPath);
+                                    Log.Warn("HintServiceMeow-Exiled.dll was found and deleted to replace with HintServiceMeow.dll.");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Log.Error($"Failed to delete HintServiceMeow-Exiled.dll: {ex.Message}");
+                                }
+                            }
+                        }
 
                         string directory = Path.GetDirectoryName(filePath);
                         if (!string.IsNullOrEmpty(directory))

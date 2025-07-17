@@ -2,8 +2,6 @@
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
-using SSMenuSystem.Features;
-using UserSettings.ServerSpecific;
 
 namespace CustomHint.Handlers
 {
@@ -48,36 +46,6 @@ namespace CustomHint.Handlers
                     Log.Warn($"Role mismatch detected for {player.Nickname}. Expected {ev.NewRole}, but got {player.Role.Type}. Skipping hint assignment.");
                 }
             });
-        }
-
-        public void OnUpdate()
-        {
-            foreach (var player in Player.List)
-            {
-                if (!player.IsVerified)
-                    continue;
-
-                var setting = player.ReferenceHub.GetParameter<ServerHUDSettings, SSTwoButtonsSetting>(1);
-                if (setting == null) continue;
-
-                bool isHudEnabled = setting.SyncIsA;
-
-                if (!_playerHudState.TryGetValue(player.UserId, out bool lastState) || lastState != isHudEnabled)
-                {
-                    _playerHudState[player.UserId] = isHudEnabled;
-                    Log.Debug($"{player.Nickname} changed HUD: {(isHudEnabled ? "ENABLE" : "DISABLE")}");
-
-                    if (isHudEnabled)
-                    {
-                        Plugin.Instance.Hints.RemoveHints(player);
-                        Plugin.Instance.Hints.AssignHints(player);
-                    }
-                    else
-                    {
-                        Plugin.Instance.Hints.RemoveHints(player);
-                    }
-                }
-            }
         }
     }
 }
