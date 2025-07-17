@@ -2,7 +2,6 @@
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
-using UserSettings.ServerSpecific;
 
 namespace CustomHint.Handlers
 {
