@@ -1,17 +1,16 @@
+using CustomHint.API;
+using CustomHint.Menus;
+using CustomHint.Methods;
+using Exiled.API.Features;
+using HintServiceMeow.Core.Enum;
+using HintServiceMeow.Core.Models.Hints;
+using HintServiceMeow.Core.Utilities;
+using MEC;
+using PlayerRoles.PlayableScps.Scp079;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MEC;
-using Exiled.API.Features;
-using PlayerRoles.PlayableScps.Scp079;
-using CustomHint.API;
-using HintServiceMeow.Core.Models.Hints;
-using HintServiceMeow.Core.Utilities;
-using HintServiceMeow.Core.Enum;
-using CustomHint.Methods;
-using UserSettings.ServerSpecific;
-using SSMenuSystem.Features;
 
 namespace CustomHint.Handlers
 {
@@ -132,18 +131,16 @@ namespace CustomHint.Handlers
                 {
                     AutoText = update =>
                     {
-                        var hub = player.ReferenceHub;
-                        var setting = hub.GetParameter<ServerHUDSettings, SSTwoButtonsSetting>(1);
-
-                        if (!hint.Roles.Contains(player.Role.Type) ||
-                            (setting?.SyncIsB == true && hint.CanBeHidden))
-                        {
+                        if (!hint.Roles.Contains(player.Role.Type))
                             return "";
-                        }
+
+                        if (hint.CanBeHidden && !ServerHUDSettings.IsHudEnabled(player))
+                            return "";
 
                         string processedText = ReplacePlaceholders(hint.Text, player, Round.ElapsedTime);
                         return processedText.Replace(hintIdPlaceholder, processedText);
                     },
+
                     SyncSpeed = GetSyncSpeed(),
                     FontSize = (int)hint.FontSize,
                     TargetX = hint.PositionX,
