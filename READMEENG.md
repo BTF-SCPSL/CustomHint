@@ -1,7 +1,7 @@
 # CustomHint
 ## Description
 A plugin that allows you to create your own custom HUD for the server.  
-To ensure proper functionality, the plugin requires **HintServiceMeow**, **SSMenuSystem** and **Newtonsoft.Json**, which are included in the releases for all versions.  
+To ensure proper functionality, the plugin requires **HintServiceMeow** and **Newtonsoft.Json**, which are included in the releases for all versions.  
 For suggestions, please ping me on the EXILED Discord server or DM: @narin4ik.  
 
 ## Guide
