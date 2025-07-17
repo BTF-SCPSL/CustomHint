@@ -1,7 +1,7 @@
 # CustomHint
 ## 描述
 一个允许为服务器制作自定义 HUD 的插件。
-要使插件正常工作，需要使用 **HintServiceMeow**、**SSMenuSystem** 和 **Newtonsoft.Json**，后者在所有版本的发行版中都有提供。   
+要使插件正常工作，需要使用 **HintServiceMeow** 和 **Newtonsoft.Json**，后者在所有版本的发行版中都有提供。   
 如有建议，请在 EXILED 服务器的 Discord 上 ping 或私信联系：@narin4ik   
 ## 教程
 ### 如何安装插件？
@@ -111,8 +111,7 @@ custom_hint:
     name: 'SCP-939'
   - role: Scp3114
     name: 'SCP-3114'
-```
-关于 **SSMenuSystem**，要删除示例设置，请在配置中找到 `ss_menu_system`，并将 `enable_examples` 的值设为 `false`。  
+```  
 完成上述所有操作后……Voilà！一切就绪！您可以完全重启服务器，CustomHint 即可完美运行。  
 感谢所有使用该插件的朋友，祝您好运！  
 ## 占位符
