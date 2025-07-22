@@ -8,7 +8,7 @@ Para sugestões, me mencione no servidor do Discord EXILED ou na DM: @narin4ik.
 
 ### Como instalar o plug-in?
 Vá para o [último lançamento](https://github.com/BTF-SCPSL/CustomHint/releases). Depois disso, baixe todos os arquivos *dll* e *zip* do lançamento, faça upload dos arquivos *CustomHint.dll* e *dependencies.zip* ao servidor na pasta Plugins (`.../EXILED/Plugins`), e então extraia o *dependencies.zip*.  
-Após a instalação, *inicie/reinicie* o servidor. 
+Após a instalação, *inicie/reinicie* o servidor.   
 Assim que você completar todos os passos, a configuração será gerada em `.../EXILED/Configs` dentro do `[porta]-config.yml` e do `[porta]-translation.yml`.
 
 ### Configurando o plug-in
