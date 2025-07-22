@@ -138,7 +138,7 @@ Meus agradecimentos a todos que usarem esse plug-in. Boa sorte!
 | {mtf_num}               | Número de membros da FTM.                                        |
 | {ci_num}                | Número de Insurgentes do Caos.                                   |
 | {scp_num}               | Número de objetos SCP.                                           |
-| {spectators_num}        | Número de espectadores (incluindo aqueles em modo de Supervisor).|
+| {spectators_num}        | Número de espectadores (incluindo aqueles em modo Supervisor).|
 | {generators_activated}  | Número de geradores ativados.                                    |
 | {generators_max}        | Número máximo de geradores.                                      |
 | {current_time}          | Horário atual em tempo real do seu fuso-horário.                 |
