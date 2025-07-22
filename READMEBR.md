@@ -12,7 +12,7 @@ Após a instalação, *inicie/reinicie* o servidor.
 Assim que você completar todos os passos, a configuração será gerada em `.../EXILED/Configs` dentro do `[porta]-config.yml` e do `[porta]-translation.yml`.
 
 ### Configurando o plug-in
-Vamos começar com a parte mais fácil, `[porta]-config.yml`. Use o atalho *CTRL+F* para pesquisar por `custom_hint` e localizar a configuração do plug-in. 
+Vamos começar com a parte mais fácil, `[porta]-config.yml`. Use o atalho *CTRL+F* para pesquisar por `custom_hint` e localizar a configuração do plug-in.   
 Por padrão, o `[porta]-config.yml` do nosso plug-in se parece assim, com todos os pontos explicados:
 ```yaml
 custom_hint:
