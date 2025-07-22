@@ -13,7 +13,7 @@ Assim que você completar todos os passos, a configuração será gerada em `...
 
 ### Configurando o plug-in
 Vamos começar com a parte mais fácil, `[porta]-config.yml`. Use o atalho *CTRL+F* para pesquisar por `custom_hint` e localizar a configuração do plug-in.   
-Por padrão, o `[porta]-config.yml` do nosso plug-in se parece assim, com todos os pontos explicados:
+Por padrão, o `[porta]-config.yml` do plug-in se parece assim, com todos os pontos explicados:
 ```yaml
 custom_hint:
 # Plugin enabled (bool)?
