@@ -115,7 +115,7 @@ custom_hint:
   - role: Scp3114
     name: 'SCP-3114'
 ```
-E depois de tudo isso... Voilà! Tudo está pronto! Você pode reiniciar o servidor *(completamente)*, e o CustomHint vai funcionar perfeitamente. 
+E depois de tudo isso... **Voilà**! Tudo está pronto! Você pode reiniciar o servidor *(completamente)*, e o CustomHint vai funcionar perfeitamente. 
 Meus agradecimentos a todos que usarem esse plug-in. Boa sorte!  
 
 ## Placeholders
