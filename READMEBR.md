@@ -2,18 +2,18 @@
 ## Descrição
 Um plug-in que permite que você crie sua própria HUD personalizada para o servidor.
 Para garantir funcionalidade adequada, o plug-in exige o **HintServiceMeow** e o **Newtonsoft.json**, que estão incluídos nos lançamentos para todas as versões.  
-Para sugestões, por favor, me mencione no servidor do Discord EXILED ou na DM: @narin4ik.
+Para sugestões, me mencione no servidor do Discord EXILED ou na DM: @narin4ik.
 
 ## Guia
 
 ### Como instalar o plug-in?
-Go to the [latest release](https://github.com/BTF-SCPSL/CustomHint/releases). After that, download all the *dll* and *zip* files from the release, then upload *CustomHint.dll* and *dependencies.zip* to the server into the Plugins folder (`.../EXILED/Plugins`), and then extract *dependencies.zip*.   
-After installation, *start/restart* the server.  
-Once you've completed all the steps, the configuration will be generated in `.../EXILED/Configs` under `[port]-config.yml` and `[port]-translation.yml`.
+Vá para o [último lançamento](https://github.com/BTF-SCPSL/CustomHint/releases). Depois disso, baixe todos os arquivos *dll* e *zip* do lançamento, faça upload dos arquivos *CustomHint.dll* e *dependencies.zip* ao servidor na pasta Plugins (`.../EXILED/Plugins`), e então extraia o *dependencies.zip*.  
+Após a instalação, *inicie/reinicie* o servidor. 
+Assim que você completar todos os passos, a configuração será gerada em `.../EXILED/Configs` dentro do `[porta]-config.yml` e do `[porta]-translation.yml`.
 
-### Configuring the plugin
-We'll start with the easiest part, `[port]-config.yml`. Use the *CTRL+F* shortcut to search for `custom_hint` and locate the plugin configuration.  
-The default `[port]-config.yml` looks like this, with all points explained:
+### Configurando o plug-in
+Vamos começar com a parte mais fácil, `[porta]-config.yml`. Use o atalho *CTRL+F* para pesquisar por `custom_hint` e localizar a configuração do plug-in. 
+Por padrão, o `[porta]-config.yml` do nosso plug-in se parece assim, com todos os pontos explicados:
 ```yaml
 custom_hint:
 # Plugin enabled (bool)?
@@ -49,8 +49,8 @@ custom_hint:
     roles:
     - ClassD
 ```
-After configuring `[port]-config.yml`, move on to `[port]-translation.yml`. Use *CTRL+F* again to search for `custom_hint`.  
-You'll find the following:
+Depois de configurar o `[porta]-config.yml`, vá para o  `[porta]-translation.yml`. Use *CTRL+F* novamente para pesquisar por `custom_hint`.  
+Você encontrará o seguinte:
 ```yaml
 custom_hint:
 # Settings header text.
@@ -115,39 +115,39 @@ custom_hint:
   - role: Scp3114
     name: 'SCP-3114'
 ```
-And after all that... Voilà! Everything is ready! You can restart the server *(fully)*, and CustomHint will work perfectly.  
-Thank you to everyone who uses this plugin. Best of luck!  
+E depois de tudo isso... Voilà! Tudo está pronto! Você pode reiniciar o servidor *(completamente)*, e o CustomHint vai funcionar perfeitamente. 
+Meus agradecimentos a todos que usarem esse plug-in. Boa sorte!  
 
 ## Placeholders
-| Placeholder            | Description                                 |
-| ----------------------- | ------------------------------------------ |
-| {servername}            | Server name.                               |
-| {ip}                    | Server IP address.                         |
-| {port}                  | Server port.                               |
-| {tps}                   | Server TPS.                                |
-| {player_nickname}       | Player's nickname.                         |
-| {player_role}           | Player's role.                             |
-| {player_gamerole}       | Player's Game role.                         |
-| {round_time}       | General round duration.                 |
-| {round_duration_seconds}| Round duration in seconds.                 |
-| {round_duration_minutes}| Round duration in minutes.                 |
-| {round_duration_hours}  | Round duration in hours.                   |
-| {classd_num}            | Number of Class-D personnel.               |
-| {scientist_num}         | Number of Scientists.                      |
-| {facilityguard_num}     | Number of Facility Guards.                 |
-| {mtf_num}               | Number of MTFs.                            |
-| {ci_num}                | Number of Chaos Insurgents.                |
-| {scp_num}               | Number of SCP subjects.                     |
-| {spectators_num}        | Number of spectators (including Overwatch).|
-| {generators_activated}  | Number of activated generators.            |
-| {generators_max}        | Maximum number of generators.              |
-| {current_time}        | Current real time in your time zone.              |
-| {hints}                 | Hints from the Hints.yml file.             |
+| Placeholder             | Descrição                                                        |
+| ----------------------- | ---------------------------------------------------------------  |
+| {servername}            | Nome do servidor.                                                |
+| {ip}                    | Endereço de IP do servidor.                                      |
+| {port}                  | Porta do servidor.                                               |
+| {tps}                   | TPS do servidor.                                                 |
+| {player_nickname}       | Apelido do jogador.                                              | 
+| {player_role}           | Cargo do jogador.                                                |
+| {player_gamerole}       | Classe do jogador.                                               |
+| {round_time}            | Duração geral da partida.                                        |
+| {round_duration_seconds}| Duração da partida em segundos.                                  |
+| {round_duration_minutes}| Duração da partida em minutos.                                   |
+| {round_duration_hours}  | Duração da partida em horas.                                     |
+| {classd_num}            | Número de funcionários Classe-D.                                 |
+| {scientist_num}         | Número de Cientistas.                                            |
+| {facilityguard_num}     | Número de Guardas da Instalação.                                 |
+| {mtf_num}               | Número de membros da FTM.                                        |
+| {ci_num}                | Número de Insurgentes do Caos.                                   |
+| {scp_num}               | Número de objetos SCP.                                           |
+| {spectators_num}        | Número de espectadores (incluindo aqueles em modo de Supervisor).|
+| {generators_activated}  | Número de geradores ativados.                                    |
+| {generators_max}        | Número máximo de geradores.                                      |
+| {current_time}          | Horário atual em tempo real do seu fuso-horário.                 |
+| {hints}                 | Hints do arquivo Hints.yml.                                      |
 
-## Third-party placeholders
-If you want to add your own plugin for adding placeholders, please contact me via DM: *@narin4ik*
-| Author            | Name            | Description                                 |
-| ----------------------- | ----------------------- | ------------------------------------------ |
-| [Narin](https://github.com/Narin4ik)            | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder)                               | Displays STEAMID64.                               |
-| [Chuppa2](https://github.com/Chuppa2)            | [CRCHPlaceholder](https://github.com/Chuppa2/CRCHPlaceholder)                               | Displays a spectated players custom info.                               |
-| [Narin](https://github.com/Narin4ik)            | [RespawnTimer](https://github.com/Narin4ik/RespawnTimer)                               | Adding a timers until the spawn of MTF and CI.                               |
+## Placeholders de terceiros
+Se você quiser adicionar seu próprio plug-in para implementação de placeholders, entre em contato comigo via DM: *@narin4ik*
+| Autor(a)                                          | Nome                                                                 | Descrição                                                         |
+| ------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [Narin](https://github.com/Narin4ik)              | [SteamIDPlaceholder](https://github.com/Narin4ik/SteamIDPlaceholder) | Exibe o STEAMID64.                                                |
+| [Chuppa2](https://github.com/Chuppa2)             | [CRCHPlaceholder](https://github.com/Chuppa2/CRCHPlaceholder)        | Exibe informações personalizadas sobre jogadores espectados.      |
+| [Narin](https://github.com/Narin4ik)              | [RespawnTimer](https://github.com/Narin4ik/RespawnTimer)             | Adiciona temporizadores que destacam quando a FTM ou IC nascerão. |
