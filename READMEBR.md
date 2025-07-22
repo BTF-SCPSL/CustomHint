@@ -1,6 +1,6 @@
 # CustomHint
 ## Descrição
-Um plug-in que permite que você crie sua própria HUD personalizada para o servidor.
+Um plug-in que permite que você crie sua própria HUD personalizada para o servidor.  
 Para garantir funcionalidade adequada, o plug-in exige o **HintServiceMeow** e o **Newtonsoft.json**, que estão incluídos nos lançamentos para todas as versões.  
 Para sugestões, me mencione no servidor do Discord EXILED ou na DM: @narin4ik.
 
