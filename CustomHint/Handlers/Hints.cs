@@ -24,7 +24,8 @@ namespace CustomHint.Handlers
 
         public void LoadHints()
         {
-            string hintsFilePath = FileDotNet.GetPath("Hints.yml");
+            string hintsFolderPath = FileDotNet.GetPath("Hints");
+            string hintsFilePath = Path.Combine(hintsFolderPath, $"{Server.Port}.yml");
 
             try
             {
@@ -34,17 +35,17 @@ namespace CustomHint.Handlers
 
                     hints.RemoveAll(h => string.IsNullOrWhiteSpace(h) || h.TrimStart().StartsWith("#"));
 
-                    Log.Debug($"Loaded {hints.Count} hints from Hints.yml.");
+                    Log.Debug($"Loaded {hints.Count} hints from {hintsFilePath}.");
                 }
                 else
                 {
-                    Log.Warn("Hints.yml not found. No hints loaded.");
+                    Log.Warn($"{hintsFilePath} not found. No hints loaded.");
                     hints = new List<string>();
                 }
             }
             catch (Exception ex)
             {
-                Log.Warn($"Failed to load Hints.yml: {ex}");
+                Log.Warn($"Failed to load hints from {hintsFilePath}: {ex}");
                 hints = new List<string>();
             }
         }

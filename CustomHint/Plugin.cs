@@ -20,8 +20,8 @@ namespace CustomHint
 
         public override string Name => "CustomHint";
         public override string Author => "Narin & BTF Team";
-        public override Version Version => new Version(1, 6, 4);
-        public override Version RequiredExiledVersion => new Version(9, 6, 1);
+        public override Version Version => new Version(1, 6, 5);
+        public override Version RequiredExiledVersion => new Version(9, 8, 0);
 
         public override void OnEnabled()
         {
@@ -44,7 +44,7 @@ namespace CustomHint
             Exiled.Events.Handlers.Server.RoundEnded += RoundEvents.OnRoundEnded;
             Exiled.Events.Handlers.Player.Verified += PlayerHandlers.OnPlayerVerified;
 
-            new Statistic().ConnectToServer();
+            //new Statistic().ConnectToServer();
 
             if (Config.HudSettings)
             {
