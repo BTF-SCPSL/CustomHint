@@ -50,7 +50,7 @@ Localized READMEs
   <div>
     <img src="https://flagsapi.com/BR/flat/64.png" height=30>
     <br>
-    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEBR.md">Brasileiro</a>
+    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEBR.md">Português (Brasil)</a>
   </div>
   <br>
   <div>
