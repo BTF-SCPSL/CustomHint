@@ -32,30 +32,30 @@ Localized READMEs
   <div>
     <img src="https://flagsapi.com/US/flat/64.png" height=30>
     <br>
-    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEENG.md">English</a>
+    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEs/ENG.md">English</a>
   </div>
   <br>
   <div>
     <img src="https://flagsapi.com/RU/flat/64.png" height=30>
     <br>
-    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMERUS.md">Русский</a>
+    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEs/RUS.md">Русский</a>
   </div>
   <br>
   <div>
     <img src="https://flagsapi.com/UA/flat/64.png" height=30>
     <br>
-    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEUA.md">Українська</a>
+    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEs/UA.md">Українська</a>
   </div>
   <br>
   <div>
     <img src="https://flagsapi.com/BR/flat/64.png" height=30>
     <br>
-    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEBR.md">Português (Brasil)</a>
+    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEs/BR.md">Português (Brasil)</a>
   </div>
   <br>
   <div>
     <img src="https://flagsapi.com/CN/flat/64.png" height=30>
     <br>
-    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMECN.md">中文（简体）</a>
+    <a href="https://github.com/BTF-SCPSL/CustomHint/blob/master/READMEs/CN.md">中文（简体）</a>
   </div>
 </div>
