@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/BTF-SCPSL/CustomHint/blob/master/logo.png?raw=true"
+  <img src="https://github.com/BTF-SCPSL/CustomHint/blob/master/.github/logo.png?raw=true"
        alt="CustomHint Logo"
        style="max-width:100%; height:auto;" />
   <hr style="
