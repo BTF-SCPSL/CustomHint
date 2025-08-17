@@ -10,7 +10,6 @@ Make sure you have the following before starting:
 
 - .NET 4.8 SDK (or a compatible environment)
 - Latest version of [EXILED](https://discord.com/channels/656673194693885975/656697996590710794)
-- SSMenuSystem installed
 - Git client and GitHub account
 
 ## 🧪 Before submitting your changes
